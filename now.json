@@ -1,6 +1,7 @@
 {
     "version": 2,
-    "name": "jeopardy",
+    "name": "Jeopardy Frontend",
+    "alias": "cranders.com",
     "builds": [
         {
             "src": "package.json",
