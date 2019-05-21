@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import firebaseui from 'firebaseui';
 import 'firebase/auth';
-import firebaseConfig from '../firebaseConfig';
+import firebaseConfig from './firebaseConfig';
+import Home from '../marketing/home';
 firebase.initializeApp(firebaseConfig);
 
 const ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -34,13 +35,7 @@ export default function(Component) {
     return class Authenticate extends React.Component {
         render() {
             const user = localStorage.getItem('firebaseui::rememberedAccounts');
-            const notLoggedIn = (
-                <header>
-                    <h1>Not logged In</h1>
-                    <div id="firebaseui-auth-container" />
-                    <div id="loader">Loading...</div>
-                </header>
-            );
+            const notLoggedIn = <Home />;
             return <>{user ? <Component {...this.props} /> : notLoggedIn}</>;
         }
     };
