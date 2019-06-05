@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Home from './components/marketing/home';
 import Index from './components/app/index';
-import firebaseConfig from '../src/components/authentication/firebaseConfig';
+import fbaseConfig from '../src/components/authentication/fbaseConfig';
 import NewGame from './components/newGame';
 
 const axios = require('axios');
 //Firebase
 const firebase = require('firebase/app');
 require('firebase/auth');
-firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(fbaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
 
 // let user = firebase.auth().currentUser;
