@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import Home from './components/marketing/home';
-import Index from './components/app/index';
+import { Route } from 'react-router-dom';
 import fbaseConfig from '../src/components/authentication/fbaseConfig';
-import NewGame from './components/newGame';
+// import NewGame from './components/newGame';
+import Games from './components/game/games';
+import QuestionView from './components/game/questionView';
+import UserInfo from './components/user/userInfo';
+import GameView from './components/game/gameView';
 
 const axios = require('axios');
 //Firebase
 const firebase = require('firebase/app');
+require('firebase/firestore');
 require('firebase/auth');
 firebase.initializeApp(fbaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
+let db = firebase.firestore();
 
-// let user = firebase.auth().currentUser;
 firebase.auth().useDeviceLanguage();
+
 function App() {
     const [user, setUser] = useState();
     const [data, setData] = useState();
+
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -35,21 +41,6 @@ function App() {
             }
         });
     }, []);
-    const getMessages = () => {
-        let config = {
-            headers: {
-                uid: `${user.uid}`
-            }
-        };
-        axios({
-            method: 'get',
-            url:
-                'https://us-central1-jeopardy-firebase.cloudfunctions.net/readMessages',
-            config
-        })
-            .then(res => setData(res.data))
-            .catch(err => console.log(err));
-    };
     const login = () => {
         firebase
             .auth()
@@ -85,8 +76,8 @@ function App() {
             .signOut()
             .then(function() {
                 // Sign-out successful.
-                setUser('');
-                setData('');
+                setData(false);
+                setUser(false);
                 console.log('Signout success!');
             })
             .catch(function(error) {
@@ -94,30 +85,34 @@ function App() {
                 console.log('Signout fail!');
             });
     };
-    const userInfo = () => {
+
+    const render = () => {
         return (
             <>
-                <p>{user.name}</p>
-                <img src={user.photo} alt="none" />
-                <p>User ID: {user.uid}</p>
+                <UserInfo user={user} />
+                <Games db={db} data={data} setData={setData} user={user} />
             </>
         );
     };
+
     return (
         <div>
-            <div onClick={user ? () => signOut() : () => login()}>
+            <Route path="/games" exact component={Games} />
+            <Route path="/games/:gameID" exact component={GameView} />
+            <div
+                onClick={user ? () => signOut() : () => login()}
+                style={{
+                    padding: '5px 10px',
+                    width: '80px',
+                    margin: '20px',
+                    textAlign: 'center',
+                    border: '1px solid black',
+                    borderRadius: '4px',
+                    cursor: 'pointer'
+                }}>
                 {user ? <p>Logout</p> : <p>Login</p>}
             </div>
-            {/* <div onClick={signOut}>Logout</div> */}
-            {/* <p>{user.profile.email}</p> */}
-            {user ? userInfo() : null}
-            {/* {user ? <Index /> : <Home />} */}
-            <button onClick={getMessages}>Get Messages</button>
-            {data
-                ? data.map((i, index) => <p key={index}>{i.original}</p>)
-                : null}
-
-            <NewGame user={user} />
+            {user ? render() : null}
         </div>
     );
 }
