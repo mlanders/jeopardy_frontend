@@ -21,11 +21,12 @@ const Games = ({ db, data, setData, user }) => {
             <NewGame user={user} />
             <QuestionView />
             <h1>Games</h1>
-            {data.map(game => {
+            {/* {data.map(game => {
                 return (
-                    <Link to={`games/${game.gameName}`}>{game.gameName}</Link>
+                    <p>{game.gameName}</p>
+                    // <Link to={`games/${game.gameName}`}>{game.gameName}</Link>
                 );
-            })}
+            })} */}
         </div>
     );
 };

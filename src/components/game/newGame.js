@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 const axios = require('axios');
 
-const NewGame = props => {
+const NewGame = ({ user }) => {
     const [input, setInput] = useState('');
     const addGame = e => {
         e.preventDefault();
@@ -9,7 +9,7 @@ const NewGame = props => {
             .post(
                 'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/addGame',
                 {
-                    uid: props.user.uid,
+                    uid: user.uid,
                     name: input
                 }
             )
