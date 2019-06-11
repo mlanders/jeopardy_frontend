@@ -1,9 +1,4 @@
-import {
-    SET_USER,
-    HANDLE_CHANGE,
-    CLEAR_TODOS,
-    MARK_COMPLETE
-} from '../constants';
+import { SET_USER, SET_GAMES, CLEAR_TODOS, MARK_COMPLETE } from '../constants';
 
 const initialState = {
     userProfile: {
@@ -12,13 +7,7 @@ const initialState = {
         photo: '',
         name: ''
     },
-    games: [
-        {
-            gameName: '',
-            author: '',
-            id: ''
-        }
-    ],
+    games: [],
     inputValue: ''
 };
 
@@ -34,10 +23,10 @@ export const userReducer = (state = initialState, action) => {
                     name: action.payload.name
                 }
             };
-        case HANDLE_CHANGE:
+        case SET_GAMES:
             return {
                 ...state,
-                inputValue: action.payload
+                games: action.payload
             };
         case MARK_COMPLETE:
             return {

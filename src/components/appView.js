@@ -5,30 +5,29 @@ import QuestionView from './game/questionView';
 import UserInfo from './user/userInfo';
 import GameView from './game/gameView';
 
-const AppView = ({ db, data, setData, user }) => {
+const AppView = ({ db, user }) => {
     return (
         <>
-            <Link to="/user">User</Link>
-            <Link to="/games">Games</Link>
+            <Link to="/user" style={{ margin: '5px' }}>
+                User
+            </Link>
+            <Link to="/games" style={{ margin: '5px' }}>
+                Games
+            </Link>
             <Switch>
                 <Route
                     path="/user"
                     render={props => <UserInfo {...props} user={user} />}
                 />
                 <Route
+                    exact
                     path="/games"
-                    render={props => (
-                        <Games
-                            {...props}
-                            data={data}
-                            db={db}
-                            setData={setData}
-                            user={user}
-                        />
-                    )}
+                    render={props => <Games {...props} db={db} user={user} />}
                 />
-                <Route path="/games/:gameID" exact component={GameView} />
-                <Games db={db} data={data} setData={setData} user={user} />
+                <Route
+                    path="/games/:id"
+                    render={props => <GameView {...props} />}
+                />
             </Switch>
         </>
     );

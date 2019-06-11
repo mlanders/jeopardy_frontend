@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { provider, db, firebase } from './authentication/auth';
 import fbaseConfig from './authentication/fbaseConfig';
+import history from '../index';
 
 import { StateProvider, useStateValue } from 'react-conflux';
 import { userReducer } from '../store/reducers/userReducer';
@@ -20,8 +21,6 @@ let db = firebase.firestore();
 firebase.auth().useDeviceLanguage();
 
 function Jeopardy() {
-    // const [user, setUser] = useState();
-    const [data, setData] = useState();
     const [state, dispatch] = useStateValue(userContext);
 
     useEffect(() => {
@@ -30,9 +29,9 @@ function Jeopardy() {
                 // User is signed in.
                 let userProfile = {
                     uid: user.uid,
-                    email: user.providerData[0].email,
-                    photo: user.providerData[0].photoURL,
-                    name: user.providerData[0].displayName
+                    email: user.email,
+                    photo: user.photoURL,
+                    name: user.displayName
                 };
                 // setUser(userProfile);
                 dispatch({ type: SET_USER, payload: userProfile });
@@ -55,12 +54,13 @@ function Jeopardy() {
                 let user = result.additionalUserInfo;
                 let userProfile = {
                     uid: user.uid,
-                    email: user.providerData[0].email,
-                    photo: user.providerData[0].photoURL,
-                    name: user.providerData[0].displayName
+                    email: user.email,
+                    photo: user.photoURL,
+                    name: user.displayName
                 };
                 // setUser(userProfile);
                 dispatch({ type: SET_USER, payload: userProfile });
+                history.push('/user');
                 // ...
             })
             .catch(function(error) {
@@ -73,11 +73,11 @@ function Jeopardy() {
                 let credential = error.credential;
 
                 console.error(
-                    'Login Error',
-                    errorCode,
-                    errorMessage,
-                    email,
-                    credential
+                    'Login Error: ',
+                    // errorCode,
+                    errorMessage
+                    // email,
+                    // credential
                 );
                 // ...
             });
@@ -88,15 +88,14 @@ function Jeopardy() {
             .signOut()
             .then(function() {
                 // Sign-out successful.
-                setData(false);
                 let userProfile = {
                     uid: '',
                     email: '',
                     photo: '',
                     name: ''
                 };
-                // setUser(userProfile);
                 dispatch({ type: SET_USER, payload: userProfile });
+                history.push('/');
                 console.log('Signout success!');
             })
             .catch(function(error) {
@@ -124,12 +123,7 @@ function Jeopardy() {
                     {state.userProfile.uid ? <p>Logout</p> : <p>Login</p>}
                 </div>
                 {state.userProfile.uid ? (
-                    <AppView
-                        db={db}
-                        data={data}
-                        setData={setData}
-                        user={state.userProfile}
-                    />
+                    <AppView db={db} user={state.userProfile} />
                 ) : null}
             </div>
         </StateProvider>
