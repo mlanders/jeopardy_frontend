@@ -4,7 +4,7 @@ import { userContext, userReducer } from '../../conflux/userReducer';
 
 const UserInfo = () => {
     const [state] = useStateValue(userContext);
-    console.log('USER INFO: ', state.userProfile);
+    // console.log('USER INFO: ', state.userProfile);
     return (
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <div>

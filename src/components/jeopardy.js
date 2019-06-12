@@ -16,7 +16,7 @@ import { SET_USER, SET_GAMES } from '../conflux/constants';
 let firebase = require('firebase/app');
 require('firebase/firestore');
 require('firebase/auth');
-firebase.initializeApp(fbaseConfig);
+// firebase.initializeApp(fbaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
 let db = firebase.firestore();
 firebase.auth().useDeviceLanguage();
@@ -35,11 +35,11 @@ function Jeopardy() {
                     document.id = doc.id;
                     update.push(document);
                 });
-                // setData(update);
+
                 dispatch({ type: SET_GAMES, payload: update });
             });
     }, [dispatch, state.userProfile.uid]);
-    // console.log('FIREBASE GAMES: ', state);
+
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
@@ -51,15 +51,15 @@ function Jeopardy() {
                     name: user.displayName
                 };
                 // setUser(userProfile);
-                // dispatch({ type: SET_USER, payload: userProfile });
+                dispatch({ type: SET_USER, payload: userProfile });
                 console.log('Already signed in!');
             } else {
                 // No user is signed in.
                 console.log('Not signed in!');
             }
         });
-    }, [state.userProfile.uid]);
-    console.log('FIREBASE AUTH: ', state);
+    }, [dispatch, state.userProfile.uid]);
+    // console.log('FIREBASE AUTH: ', state);
     const login = () => {
         firebase
             .auth()
@@ -119,7 +119,7 @@ function Jeopardy() {
                 console.error('Signout Error', error);
             });
     };
-    console.log('JEOPARDY: ', state);
+    // console.log('JEOPARDY: ', state);
     const Links = () => {
         return (
             <>

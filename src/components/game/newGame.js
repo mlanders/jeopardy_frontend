@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { addGame } from '../firebaseFunctions';
 const axios = require('axios');
 
 const NewGame = ({ user }) => {
@@ -23,7 +24,11 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <form onSubmit={e => addGame(e)}>
+        <form
+            onSubmit={e => {
+                e.preventDefault();
+                addGame(input, user.uid);
+            }}>
             <input
                 name="name"
                 laceholder="Game name"

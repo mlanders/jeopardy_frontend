@@ -7,7 +7,7 @@ import { userContext, userReducer } from '../../conflux/userReducer';
 
 const Games = ({ db }) => {
     const [state] = useStateValue(userContext);
-    console.log('GAMES COMPONENT: ', state);
+    // console.log('GAMES COMPONENT: ', state);
 
     return (
         <div>
