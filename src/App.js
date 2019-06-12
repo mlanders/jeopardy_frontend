@@ -1,7 +1,6 @@
 import React from 'react';
 import { StateProvider } from 'react-conflux';
-import { userReducer } from './store/reducers/userReducer';
-import { userContext } from './store/context';
+import { userContext, userReducer } from './conflux/userReducer';
 
 import Jeopardy from './components/jeopardy';
 

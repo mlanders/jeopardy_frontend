@@ -1,25 +1,42 @@
 import React from 'react';
+import axios from 'axios';
 import { StateProvider, useStateValue } from 'react-conflux';
-import { userReducer } from '../../store/reducers/userReducer';
-import { userContext } from '../../store/context';
+import { userContext, userReducer } from '../../conflux/userReducer';
+import history from '../../index';
 
-const GameView = props => {
-    const [state, dispatch] = useStateValue(userContext);
-
+const GameView = (props, db) => {
+    const [state] = useStateValue(userContext);
     let game = state.games.filter(game => {
-        console.log('GAME! ', typeof game.id);
-        console.log('MATCH: ', typeof props.match.params.id);
         return game.id === props.match.params.id;
     });
-    console.log('GAME! ', game);
-    return (
-        <StateProvider reducer={userReducer} stateContext={userContext}>
-            <div>
-                {/* <p>{state.games.gameName}</p> */}
-                <p>{game[0].id}</p>
-            </div>
-        </StateProvider>
-    );
+
+    const deleteGame = async () => {
+        await axios
+            .delete(
+                `https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/deleteGame/${
+                    game[0].id
+                }`
+            )
+            .then(res => console.log(res.data))
+            .catch(err => console.log('ERROR: ', err));
+        history.push('/games');
+    };
+
+    console.log('GAME!!', game.length);
+    if (game.length === 0) {
+        history.push('/games');
+    } else {
+        return (
+            <StateProvider reducer={userReducer} stateContext={userContext}>
+                <div>
+                    <p>Game ID: {game[0].id}</p>
+                    <p>Game Name: {game[0].gameName}</p>
+                    <p>Game Author: {game[0].author}</p>
+                    <button onClick={deleteGame}>Delete Game</button>
+                </div>
+            </StateProvider>
+        );
+    }
 };
 
 export default GameView;

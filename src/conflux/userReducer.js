@@ -1,4 +1,5 @@
-import { SET_USER, SET_GAMES, CLEAR_TODOS, MARK_COMPLETE } from '../constants';
+import { SET_USER, SET_GAMES, CLEAR_TODOS, MARK_COMPLETE } from './constants';
+import { createContext } from 'react';
 
 const initialState = {
     userProfile: {
@@ -10,6 +11,8 @@ const initialState = {
     games: [],
     inputValue: ''
 };
+
+export const userContext = createContext();
 
 export const userReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -30,17 +33,11 @@ export const userReducer = (state = initialState, action) => {
             };
         case MARK_COMPLETE:
             return {
-                ...state,
-                toDos: state.toDos.map(toDo => {
-                    return toDo.id === action.payload
-                        ? { ...toDo, completed: !toDo.completed }
-                        : toDo;
-                })
+                ...state
             };
         case CLEAR_TODOS:
             return {
-                ...state,
-                toDos: state.toDos.filter(toDo => !toDo.completed)
+                ...state
             };
         default:
             return state;
