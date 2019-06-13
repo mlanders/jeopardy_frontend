@@ -1,10 +1,11 @@
 import React from 'react';
 import { StateProvider, useStateValue } from 'react-conflux';
 import { userContext, userReducer } from '../../conflux/userReducer';
+import { Redirect } from 'react-router-dom';
 
 const UserInfo = () => {
     const [state] = useStateValue(userContext);
-    // console.log('USER INFO: ', state.userProfile);
+
     return (
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <div>

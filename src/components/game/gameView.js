@@ -21,8 +21,6 @@ const GameView = (props, db) => {
             .catch(err => console.log('ERROR: ', err));
         history.push('/games');
     };
-
-    console.log('GAME!!', game.length);
     if (game.length === 0) {
         history.push('/games');
     } else {

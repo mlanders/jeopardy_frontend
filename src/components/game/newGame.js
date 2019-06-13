@@ -24,11 +24,7 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <form
-            onSubmit={e => {
-                e.preventDefault();
-                addGame(input, user.uid);
-            }}>
+        <form onSubmit={e => addGame(e)}>
             <input
                 name="name"
                 laceholder="Game name"
