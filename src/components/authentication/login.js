@@ -4,10 +4,13 @@ import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 import { SET_USER } from '../../conflux/constants';
 
+import fbaseConfig from './fbaseConfig';
+
 //Firebase
 let firebase = require('firebase/app');
 require('firebase/firestore');
 require('firebase/auth');
+firebase.initializeApp(fbaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
 firebase.auth().useDeviceLanguage();
 

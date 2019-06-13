@@ -1,9 +1,11 @@
 import React from 'react';
 
-const QuestionView = () => {
+const QuestionView = ({ q }) => {
     return (
         <div>
-            <h1>QuestionView</h1>
+            <p>Question: {q.question}</p>
+            <p>Answer: {q.answer}</p>
+            <hr />
         </div>
     );
 };

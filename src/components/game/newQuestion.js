@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
+import { useStateValue } from 'react-conflux';
+import { userContext } from '../../conflux/userReducer';
 const axios = require('axios');
 
 const NewQuestion = props => {
+    const [state] = useStateValue(userContext);
     const [input, setInput] = useState({
         question: '',
-        answer: '',
-        gameID: '',
+        answer: ''
     });
-    const addGame = e => {
+    const addQuestion = e => {
         e.preventDefault();
         axios
             .post(
                 'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/addQuestion',
                 {
-                    uid: props.user.uid,
+                    uid: state.userProfile.uid,
                     question: input.question,
                     answer: input.answer,
-                    gameID: input.gameID
+                    gameID: props.gameID
                 }
             )
             .then(res => console.log(res.data))
@@ -26,17 +28,24 @@ const NewQuestion = props => {
     };
     const handleChange = e => {
         e.preventDefault();
-        setInput(e.target.value);
+        const { name, value } = e.target;
+        setInput({ ...input, [name]: value });
     };
     return (
-        <form onSubmit={e => addGame(e)}>
+        <form onSubmit={e => addQuestion(e)}>
             <input
-                name="name"
-                laceholder="Game name"
-                value={input}
+                name="question"
+                placeholder="Question"
+                value={input.question}
                 onChange={handleChange}
             />
-            <button>Add Game</button>
+            <input
+                name="answer"
+                placeholder="Answer"
+                value={input.answewr}
+                onChange={handleChange}
+            />
+            <button>Add Question</button>
         </form>
     );
 };

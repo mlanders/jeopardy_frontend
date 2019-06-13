@@ -1,4 +1,10 @@
-import { SET_USER, SET_GAMES, CLEAR_TODOS, MARK_COMPLETE } from './constants';
+import {
+    SET_USER,
+    SET_GAMES,
+    SET_QUESTIONS,
+    CLEAR_TODOS,
+    SET_INPUT
+} from './constants';
 import { createContext } from 'react';
 
 const initialState = {
@@ -9,6 +15,7 @@ const initialState = {
         name: ''
     },
     games: [],
+    questions: [],
     inputValue: ''
 };
 
@@ -31,9 +38,15 @@ export const userReducer = (state = initialState, action) => {
                 ...state,
                 games: action.payload
             };
-        case MARK_COMPLETE:
+        case SET_QUESTIONS:
             return {
-                ...state
+                ...state,
+                questions: action.payload
+            };
+        case SET_INPUT:
+            return {
+                ...state,
+                inputValue: action.payload
             };
         case CLEAR_TODOS:
             return {
