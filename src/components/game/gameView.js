@@ -6,6 +6,7 @@ import history from '../../index';
 import NewQuestion from './newQuestion';
 import { SET_QUESTIONS } from '../../conflux/constants';
 import QuestionView from './questionView';
+import { Redirect } from 'react-router-dom';
 
 const GameView = props => {
     const [state, dispatch] = useStateValue(userContext);
@@ -50,14 +51,13 @@ const GameView = props => {
         history.push('/games');
     };
     if (game.length === 0) {
-        history.push('/games');
+        return <Redirect to="/" />;
     } else {
         return (
             <StateProvider reducer={userReducer} stateContext={userContext}>
                 <div>
-                    <p>Game ID: {game[0].id}</p>
                     <p>Game Name: {game[0].gameName}</p>
-                    <p>Game Author: {game[0].author}</p>
+                    <br />
                     <button onClick={deleteGame}>Delete Game</button>
                     <NewQuestion gameID={props.match.params.id} />
                     {state.questions.map(q => {

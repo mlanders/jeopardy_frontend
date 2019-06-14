@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
 import history from '../../index';
 import NewGame from './newGame';

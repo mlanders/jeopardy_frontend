@@ -1,5 +1,6 @@
 import React from 'react';
 import history from '../../index';
+import styled from 'styled-components';
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 import { SET_USER } from '../../conflux/constants';
@@ -34,7 +35,7 @@ const Login = () => {
                 };
 
                 dispatch({ type: SET_USER, payload: userProfile });
-                history.push('/user');
+                history.push('/games');
             })
             .catch(function(error) {
                 // Handle Errors here.
@@ -78,23 +79,30 @@ const Login = () => {
     };
 
     return (
-        <div
-            onClick={
-                state.userProfile.uid
-                    ? () => handleLogout()
-                    : () => handleLogin()
-            }
-            style={{
-                width: '50px',
-                padding: '5px 10px',
-                margin: '20px',
-                textAlign: 'center',
-                border: '1px solid black',
-                borderRadius: '4px',
-                cursor: 'pointer'
-            }}>
-            {state.userProfile.uid ? `Logout` : `Login`}
-        </div>
+        <Styles>
+            <div
+                className="LoginButton"
+                onClick={
+                    state.userProfile.uid
+                        ? () => handleLogout()
+                        : () => handleLogin()
+                }>
+                {state.userProfile.uid ? `Logout` : `Login`}
+            </div>
+        </Styles>
     );
 };
+const Styles = styled.div`
+    .LoginButton {
+        width: 70px;
+        padding: 5px 10px;
+        margin: 20px;
+        text-align: center;
+        border: 1px solid black;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #fff;
+    }
+`;
+
 export default Login;
