@@ -62,7 +62,6 @@ const GamesContainer = styled.div`
     width: 100%;
     margin: 10px auto;
     padding: 10px;
-    border: 1px solid red;
 `;
 const H1 = styled.div`
     font-size: 2rem;
