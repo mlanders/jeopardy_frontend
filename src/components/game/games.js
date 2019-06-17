@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Link, Redirect } from 'react-router-dom';
+import styled from 'styled-components';
 import history from '../../index';
 import NewGame from './newGame';
 
@@ -36,22 +37,41 @@ const Games = ({ db }) => {
     }, [db, dispatch, state.userProfile.uid]);
 
     return (
-        <div>
+        <GamesContainer>
             <NewGame user={state.userProfile} />
-            <h1>Games</h1>
+            <H1>Games</H1>
             <ul>
                 {state.games.map(game => {
                     return (
-                        <li key={game.id}>
+                        <GameList key={game.id}>
                             <Link to={`/games/${game.id}`}>
                                 {game.gameName}
                             </Link>
-                        </li>
+                        </GameList>
                     );
                 })}
             </ul>
-        </div>
+        </GamesContainer>
     );
 };
 
 export default Games;
+
+const GamesContainer = styled.div`
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid red;
+`;
+const H1 = styled.div`
+    font-size: 2rem;
+`;
+
+const GameList = styled.li`
+    text-decoration: none;
+    padding: 10px;
+    :nth-child(even) {
+        background-color: lightgray;
+    }
+`;

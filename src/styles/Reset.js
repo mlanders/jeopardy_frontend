@@ -91,7 +91,8 @@ export const Reset = css`
         padding: 0;
         border: 0;
         font-size: 100%;
-        font: inherit;
+        /* font: inherit; */
+        font-family: 'Roboto', sans-serif;
         vertical-align: baseline;
     }
     /* HTML5 display-role reset for older browsers */

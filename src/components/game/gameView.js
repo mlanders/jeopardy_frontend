@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { StateProvider, useStateValue } from 'react-conflux';
 import { userContext, userReducer } from '../../conflux/userReducer';
 import history from '../../index';
@@ -10,6 +12,7 @@ import { Redirect } from 'react-router-dom';
 
 const GameView = props => {
     const [state, dispatch] = useStateValue(userContext);
+
     let game = state.games.filter(game => {
         return game.id === props.match.params.id;
     });
@@ -55,8 +58,9 @@ const GameView = props => {
     } else {
         return (
             <StateProvider reducer={userReducer} stateContext={userContext}>
-                <div>
-                    <p>Game Name: {game[0].gameName}</p>
+                <GameViewContainer>
+                    <Link to="/games">{'<- Back to Games'}</Link>
+                    <H1>Game Name: {game[0].gameName}</H1>
                     <br />
                     <button onClick={deleteGame}>Delete Game</button>
                     <NewQuestion gameID={props.match.params.id} />
@@ -64,10 +68,21 @@ const GameView = props => {
                         console.log(q);
                         return <QuestionView q={q} />;
                     })}
-                </div>
+                </GameViewContainer>
             </StateProvider>
         );
     }
 };
 
 export default GameView;
+
+const GameViewContainer = styled.div`
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+`;
+
+const H1 = styled.div`
+    font-size: 2rem;
+`;

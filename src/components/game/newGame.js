@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 import { SET_INPUT } from '../../conflux/constants';
@@ -11,6 +12,9 @@ const NewGame = ({ user }) => {
 
     const addGame = e => {
         e.preventDefault();
+        if (input === '') {
+            return;
+        }
         axios
             .post(
                 'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/addGame',
@@ -28,7 +32,7 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <form onSubmit={e => addGame(e)}>
+        <NewGameForm onSubmit={e => addGame(e)}>
             <input
                 name="name"
                 placeholder="Game name"
@@ -36,8 +40,12 @@ const NewGame = ({ user }) => {
                 onChange={handleChange}
             />
             <button>Add Game</button>
-        </form>
+        </NewGameForm>
     );
 };
 
 export default NewGame;
+
+const NewGameForm = styled.form`
+    margin: 10px 0;
+`;
