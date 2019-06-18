@@ -22,7 +22,7 @@ const Games = ({ db }) => {
             <NewGame user={state.userProfile} />
             <div className="container ">
                 {state.games.length === 0 ? (
-                    <div>No games available. Create on above!</div>
+                    <div>No games available. Create one above!</div>
                 ) : (
                     state.games.map(game => {
                         return (

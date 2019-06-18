@@ -89,9 +89,13 @@ const GameView = props => {
                     gameID={props.match.params.id}
                 />
                 <div className="container">
-                    {state.questions.map(q => {
-                        return <QuestionView key={q.id} q={q} />;
-                    })}
+                    {state.questions.length === 0 ? (
+                        <div>No questions available. Create one above!</div>
+                    ) : (
+                        state.questions.map(q => {
+                            return <QuestionView key={q.id} q={q} />;
+                        })
+                    )}
                 </div>
             </GameViewContainer>
         </StateProvider>
