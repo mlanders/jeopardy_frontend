@@ -37,7 +37,7 @@ const NewQuestion = props => {
         setInput({ ...input, [name]: value });
     };
     return (
-        <NewQuestionForm onSubmit={addQuestion}>
+        <NewQuestionForm className="container" onSubmit={addQuestion}>
             <input
                 name="question"
                 placeholder="Question"

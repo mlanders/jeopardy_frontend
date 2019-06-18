@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useStateValue } from 'react-conflux';
-import { userContext } from '../../conflux/userReducer';
-import { SET_INPUT } from '../../conflux/constants';
 
 const axios = require('axios');
 
 const NewGame = ({ user }) => {
     const [input, setInput] = useState('');
-    // const [state, dispatch] = useStateValue(userContext);
 
     const addGame = e => {
         e.preventDefault();
@@ -32,7 +28,7 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <NewGameForm onSubmit={addGame}>
+        <form className="container" onSubmit={addGame}>
             <input
                 name="name"
                 placeholder="Game name"
@@ -40,12 +36,8 @@ const NewGame = ({ user }) => {
                 onChange={handleChange}
             />
             <button>Add Game</button>
-        </NewGameForm>
+        </form>
     );
 };
 
 export default NewGame;
-
-const NewGameForm = styled.form`
-    margin: 10px 0;
-`;

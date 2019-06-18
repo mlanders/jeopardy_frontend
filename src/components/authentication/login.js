@@ -5,13 +5,13 @@ import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 import { SET_USER } from '../../conflux/constants';
 
-import fbaseConfig from './fbaseConfig';
+import firebaseConfig from './fbaseConfig';
 
 //Firebase
 let firebase = require('firebase/app');
 require('firebase/firestore');
 require('firebase/auth');
-firebase.initializeApp(fbaseConfig);
+firebase.initializeApp(firebaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
 firebase.auth().useDeviceLanguage();
 
@@ -24,7 +24,7 @@ const Login = () => {
             .signInWithPopup(provider)
             .then(function(result) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
-                let token = result.credential.accessToken;
+                // let token = result.credential.accessToken;
                 // The signed-in user info.
                 let user = result.user;
                 let userProfile = {

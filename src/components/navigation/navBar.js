@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { StateProvider, useStateValue } from 'react-conflux';
-import { userContext, userReducer } from '../../conflux/userReducer';
-import { SET_USER, SET_GAMES } from '../../conflux/constants';
+import { useStateValue } from 'react-conflux';
+import { userContext } from '../../conflux/userReducer';
 import Login from '../authentication/login';
-import { GlobalStyles } from '../../styles/index';
 
 const NavBar = () => {
-    const [state, dispatch] = useStateValue(userContext);
+    const [state] = useStateValue(userContext);
 
     return (
         <Styles>
@@ -36,6 +34,7 @@ const Styles = styled.div`
     .Logo {
         font-size: 2rem;
         text-decoration: none;
+        color: #f09d51;
     }
     .NavBar {
         width: 100%;
@@ -44,7 +43,7 @@ const Styles = styled.div`
         padding: 0 10px;
         justify-content: space-between;
         align-items: center;
-        background-color: #e8e9eb;
+        background-color: #313638;
     }
     .MenuRight {
         display: flex;

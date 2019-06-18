@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -8,18 +8,40 @@ import history from '../../index';
 import NewQuestion from './newQuestion';
 import { SET_QUESTIONS } from '../../conflux/constants';
 import QuestionView from './questionView';
-import { Redirect } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
+
+//Firebase
+let firebase = require('firebase/app');
+require('firebase/firestore');
+require('firebase/auth');
+// firebase.initializeApp(fbaseConfig);
+let db = firebase.firestore();
 
 const GameView = props => {
     const [state, dispatch] = useStateValue(userContext);
-
-    let game = state.games.filter(game => {
-        return game.id === props.match.params.id;
+    const [currentGame, setCurrentGame] = useState({
+        gameName: false,
+        author: false
     });
 
+    if (currentGame.author === false) {
+        axios
+            .get(
+                `https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/getGame/${
+                    props.match.params.id
+                }`
+            )
+            .then(res => {
+                setCurrentGame({
+                    gameName: res.data.data.gameName,
+                    author: res.data.data.author
+                });
+            })
+            .catch(err => console.log('ERROR: ', err));
+    }
+
     useEffect(() => {
-        props.db
-            .collection('questions')
+        db.collection('questions')
             .where('gameID', '==', props.match.params.id)
             .onSnapshot(function(snapshot) {
                 // let changes = snapshot.docChanges();
@@ -40,38 +62,40 @@ const GameView = props => {
                 });
                 dispatch({ type: SET_QUESTIONS, payload: update });
             });
-    }, [dispatch, props.db, props.match.params.id, state.userProfile.uid]);
+    }, [dispatch, props.match.params.id, state.userProfile.uid]);
 
     const deleteGame = async () => {
         await axios
             .delete(
                 `https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/deleteGame/${
-                    game[0].id
+                    props.match.params.id
                 }`
             )
             .then(res => console.log(res.data))
             .catch(err => console.log('ERROR: ', err));
         history.push('/games');
     };
-    if (game.length === 0) {
-        return <Redirect to="/" />;
-    } else {
-        return (
-            <StateProvider reducer={userReducer} stateContext={userContext}>
-                <GameViewContainer>
-                    <Link to="/games">{'<- Back to Games'}</Link>
-                    <H1>{game[0].gameName}</H1>
+    return (
+        <StateProvider reducer={userReducer} stateContext={userContext}>
+            <GameViewContainer>
+                <Link to="/games">{'<- Back to Games'}</Link>
+                <div className="container h1">
+                    {currentGame.gameName || <Skeleton />}
                     <br />
                     <button onClick={deleteGame}>Delete Game</button>
-                    <NewQuestion gameID={props.match.params.id} />
+                </div>
+                <NewQuestion
+                    className="container"
+                    gameID={props.match.params.id}
+                />
+                <div className="container">
                     {state.questions.map(q => {
-                        console.log(q);
-                        return <QuestionView q={q} />;
+                        return <QuestionView key={q.id} q={q} />;
                     })}
-                </GameViewContainer>
-            </StateProvider>
-        );
-    }
+                </div>
+            </GameViewContainer>
+        </StateProvider>
+    );
 };
 
 export default GameView;
