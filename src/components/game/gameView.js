@@ -60,7 +60,7 @@ const GameView = props => {
             <StateProvider reducer={userReducer} stateContext={userContext}>
                 <GameViewContainer>
                     <Link to="/games">{'<- Back to Games'}</Link>
-                    <H1>Game Name: {game[0].gameName}</H1>
+                    <H1>{game[0].gameName}</H1>
                     <br />
                     <button onClick={deleteGame}>Delete Game</button>
                     <NewQuestion gameID={props.match.params.id} />
@@ -85,4 +85,5 @@ const GameViewContainer = styled.div`
 
 const H1 = styled.div`
     font-size: 2rem;
+    margin-top: 10px;
 `;

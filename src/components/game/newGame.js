@@ -32,7 +32,7 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <NewGameForm onSubmit={e => addGame(e)}>
+        <NewGameForm onSubmit={addGame}>
             <input
                 name="name"
                 placeholder="Game name"

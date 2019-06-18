@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 const axios = require('axios');
@@ -11,6 +12,10 @@ const NewQuestion = props => {
     });
     const addQuestion = e => {
         e.preventDefault();
+        if (input.question === '' || input.answer === '') {
+            console.log('Invalid Input');
+            return;
+        }
         axios
             .post(
                 'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/addQuestion',
@@ -24,7 +29,7 @@ const NewQuestion = props => {
             .then(res => console.log(res.data))
             .catch(err => console.log('ERROR: ', err));
 
-        setInput('');
+        setInput({ question: '', answer: '' });
     };
     const handleChange = e => {
         e.preventDefault();
@@ -32,7 +37,7 @@ const NewQuestion = props => {
         setInput({ ...input, [name]: value });
     };
     return (
-        <form onSubmit={e => addQuestion(e)}>
+        <NewQuestionForm onSubmit={addQuestion}>
             <input
                 name="question"
                 placeholder="Question"
@@ -42,12 +47,16 @@ const NewQuestion = props => {
             <input
                 name="answer"
                 placeholder="Answer"
-                value={input.answewr}
+                value={input.answer}
                 onChange={handleChange}
             />
             <button>Add Question</button>
-        </form>
+        </NewQuestionForm>
     );
 };
 
 export default NewQuestion;
+
+const NewQuestionForm = styled.form`
+    margin: 10px 0;
+`;
