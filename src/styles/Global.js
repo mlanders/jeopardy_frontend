@@ -13,4 +13,10 @@ export const Global = css`
     .h1 {
         font-size: 2rem;
     }
+    .h2 {
+        font-size: 1.8rem;
+    }
+    .h3 {
+        font-size: 1.6rem;
+    }
 `;

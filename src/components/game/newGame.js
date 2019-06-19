@@ -28,16 +28,22 @@ const NewGame = ({ user }) => {
         setInput(e.target.value);
     };
     return (
-        <form className="container" onSubmit={addGame}>
+        <NewGameForm className="container" onSubmit={addGame}>
             <input
+                className="input"
                 name="name"
                 placeholder="Game name"
                 value={input}
                 onChange={handleChange}
             />
-            <button>Add Game</button>
-        </form>
+            <button className="btn success">Add Game</button>
+        </NewGameForm>
     );
 };
 
 export default NewGame;
+
+const NewGameForm = styled.form`
+    display: flex;
+    justify-content: space-between;
+`;

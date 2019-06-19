@@ -38,26 +38,62 @@ const NewQuestion = props => {
         setInput({ ...input, [name]: value });
     };
     return (
-        <NewQuestionForm className="container" onSubmit={addQuestion}>
-            <input
-                name="question"
-                placeholder="Question"
-                value={input.question}
-                onChange={handleChange}
-            />
-            <input
-                name="answer"
-                placeholder="Answer"
-                value={input.answer}
-                onChange={handleChange}
-            />
-            <button>Add Question</button>
-        </NewQuestionForm>
+        <Styles className="container">
+            <div className="h3">Add Question</div>
+            <div className="NewQuestionForm" onSubmit={addQuestion}>
+                <div className="InputContainer">
+                    <label for="question">Question</label>
+                    <input
+                        className="input"
+                        name="question"
+                        placeholder="Question"
+                        value={input.question}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="InputContainer">
+                    <label for="answer">Answer</label>
+                    <input
+                        className="input"
+                        name="answer"
+                        placeholder="Answer"
+                        value={input.answer}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="InputContainer">
+                    <label for="tags">Tags</label>
+                    <input
+                        className="input"
+                        name="tags"
+                        placeholder="Tags"
+                        value={input.answer}
+                        onChange={handleChange}
+                    />
+                </div>
+            </div>
+            <button className="btn success">Add Question</button>
+        </Styles>
     );
 };
 
 export default NewQuestion;
 
-const NewQuestionForm = styled.form`
-    margin: 10px 0;
+const Styles = styled.div`
+    display: flex;
+    flex-direction: column;
+    .NewQuestionForm {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+    .InputContainer {
+        width: 200px;
+        display: flex;
+        flex-direction: column;
+    }
+    .btn {
+        width: auto;
+        align-self: flex-end;
+    }
 `;

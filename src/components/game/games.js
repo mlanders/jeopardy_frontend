@@ -13,7 +13,6 @@ const Games = ({ db }) => {
 
     return (
         <GamesContainer>
-            <div className="container h1">Games</div>
             <NewGame user={state.userProfile} />
             <div className="container ">
                 {state.games.length === 0 ? (

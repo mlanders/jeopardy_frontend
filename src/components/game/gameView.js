@@ -81,11 +81,13 @@ const GameView = props => {
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <GameViewContainer>
                 <Link to="/games">{'<- Back to Games'}</Link>
-                <div className="container h1">
+                <GameTitle className="container h1">
                     {currentGame.gameName || <Skeleton />}
                     <br />
-                    <button onClick={deleteGame}>Delete Game</button>
-                </div>
+                    <button className="btn danger" onClick={deleteGame}>
+                        Delete Game
+                    </button>
+                </GameTitle>
                 <NewQuestion
                     className="container"
                     gameID={props.match.params.id}
@@ -112,6 +114,10 @@ const GameViewContainer = styled.div`
     width: 100%;
     margin: 10px auto;
     padding: 10px;
+`;
+const GameTitle = styled.div`
+    display: flex;
+    justify-content: space-between;
 `;
 
 const H1 = styled.div`
