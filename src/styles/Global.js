@@ -19,4 +19,7 @@ export const Global = css`
     .h3 {
         font-size: 1.6rem;
     }
+    .hidden {
+        display: none;
+    }
 `;

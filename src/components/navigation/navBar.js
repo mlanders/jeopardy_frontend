@@ -18,9 +18,13 @@ const NavBar = () => {
                 <div className="MenuRight">
                     <Link to="/user">
                         <img
-                            className="ProfileImg"
-                            src={state.userProfile.photo}
-                            alt={state.userProfile.name}
+                            className={
+                                state.userProfile.uid
+                                    ? 'ProfileImg '
+                                    : 'hidden '
+                            }
+                            src={state.userProfile.photo || 'None'}
+                            alt={state.userProfile.name || 'None'}
                         />
                     </Link>
                     <Login />
