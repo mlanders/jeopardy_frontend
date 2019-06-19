@@ -5,12 +5,13 @@ import { userContext } from '../../conflux/userReducer';
 const axios = require('axios');
 
 const NewQuestion = props => {
-    const [state] = useStateValue(userContext);
+    // const [state] = useStateValue(userContext);
     const [input, setInput] = useState({
         question: '',
         answer: ''
     });
     const addQuestion = e => {
+        console.log(props.author);
         e.preventDefault();
         if (input.question === '' || input.answer === '') {
             console.log('Invalid Input');
@@ -20,7 +21,7 @@ const NewQuestion = props => {
             .post(
                 'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/addQuestion',
                 {
-                    uid: state.userProfile.uid,
+                    uid: props.author,
                     question: input.question,
                     answer: input.answer,
                     gameID: props.gameID

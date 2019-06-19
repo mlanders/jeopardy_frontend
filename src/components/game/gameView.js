@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
+//Conflux
 import { StateProvider, useStateValue } from 'react-conflux';
 import { userContext, userReducer } from '../../conflux/userReducer';
-import history from '../../index';
-import NewQuestion from './newQuestion';
 import { SET_QUESTIONS } from '../../conflux/constants';
-import QuestionView from './questionView';
-import Skeleton from 'react-loading-skeleton';
-
+//Components
+import history from '../../index';
+import NewQuestion from '../questions/NewQuestion';
+import QuestionView from '../questions/QuestionView';
 //Firebase
 let firebase = require('firebase/app');
 require('firebase/firestore');
@@ -17,6 +18,7 @@ require('firebase/auth');
 // firebase.initializeApp(fbaseConfig);
 let db = firebase.firestore();
 
+//Component
 const GameView = props => {
     const [state, dispatch] = useStateValue(userContext);
     const [currentGame, setCurrentGame] = useState({
@@ -87,6 +89,7 @@ const GameView = props => {
                 <NewQuestion
                     className="container"
                     gameID={props.match.params.id}
+                    author={currentGame.author}
                 />
                 <div className="container">
                     {state.questions.length === 0 ? (

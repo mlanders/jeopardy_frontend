@@ -11,7 +11,7 @@ const NavBar = () => {
     return (
         <Styles>
             <div className="NavBar">
-                <Link to="/games" className="Logo">
+                <Link to="/" className="Logo">
                     Jeopardy
                 </Link>
 

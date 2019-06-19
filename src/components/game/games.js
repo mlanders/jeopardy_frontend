@@ -1,20 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-
-import NewGame from './newGame';
-
+//Comflux
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
+//Components
+import NewGame from './NewGame';
 
+//Component
 const Games = ({ db }) => {
     const [state] = useStateValue(userContext);
-
-    const renderGames = () => {
-        if (state.games === []) {
-            return;
-        }
-    };
 
     return (
         <GamesContainer>

@@ -9,7 +9,6 @@ export const Global = css`
         background-color: #e8e9eb;
         padding-top: 10px;
         height: 100vh;
-        width: 100vw;
     }
     .h1 {
         font-size: 2rem;

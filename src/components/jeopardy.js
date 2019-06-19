@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
-import Games from './game/games';
-
-import Login from './authentication/login';
-import UserInfo from './user/userInfo';
-import GameView from './game/gameView';
-
+import { GlobalStyles } from '../styles';
+//Conflux
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../conflux/userReducer';
 import { SET_USER, SET_GAMES } from '../conflux/constants';
-import NavBar from './navigation/navBar';
-import { GlobalStyles } from '../styles';
-
+//Components
+import Login from './authentication/login';
+import UserInfo from './user/userInfo';
+import GameView from './game/gameView';
+import NavBar from './navigation/NavBar';
+import Games from './game/games';
+import Dashboard from './dashboard/Dashboard';
+import Questions from './questions/Questions';
 //Firebase
 require('firebase/firestore');
 require('firebase/auth');
@@ -19,6 +20,7 @@ let firebase = require('firebase/app');
 firebase.auth().useDeviceLanguage();
 let db = firebase.firestore();
 
+//Component
 function Jeopardy() {
     const [state, dispatch] = useStateValue(userContext);
 
@@ -71,11 +73,17 @@ function Jeopardy() {
             <GlobalStyles />
             <NavBar />
             <div className="body">
+                <Dashboard />
                 <Route path="/user" render={props => <UserInfo {...props} />} />
                 <Route
                     exact
                     path="/games"
                     render={props => <Games {...props} />}
+                />
+                <Route
+                    exact
+                    path="/questions"
+                    render={props => <Questions {...props} />}
                 />
                 <Route
                     path="/games/:id"
