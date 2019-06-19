@@ -37,11 +37,12 @@ const GamesContainer = styled.div`
     max-width: 800px;
     width: 100%;
     margin: 0 auto;
-    padding: 10px;
+    /* padding: 10px; */
 `;
 
 const StyledLink = styled(Link)`
     background-color: #fff;
+    color: #337ab7;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -49,7 +50,7 @@ const StyledLink = styled(Link)`
     text-decoration: none;
 
     :hover {
-        background-color: blue;
+        background-color: #337ab7;
         color: #fff;
     }
 `;
