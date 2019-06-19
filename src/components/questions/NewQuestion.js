@@ -8,7 +8,8 @@ const NewQuestion = props => {
     // const [state] = useStateValue(userContext);
     const [input, setInput] = useState({
         question: '',
-        answer: ''
+        answer: '',
+        tags: ''
     });
     const addQuestion = e => {
         console.log(props.author);
@@ -24,13 +25,14 @@ const NewQuestion = props => {
                     uid: props.author,
                     question: input.question,
                     answer: input.answer,
+                    tags: input.tags,
                     gameID: props.gameID
                 }
             )
             .then(res => console.log(res.data))
             .catch(err => console.log('ERROR: ', err));
 
-        setInput({ question: '', answer: '' });
+        setInput({ question: '', answer: '', tags: '' });
     };
     const handleChange = e => {
         e.preventDefault();
@@ -40,9 +42,9 @@ const NewQuestion = props => {
     return (
         <Styles className="container">
             <div className="h3">Add Question</div>
-            <div className="NewQuestionForm" onSubmit={addQuestion}>
+            <form className="NewQuestionForm" onSubmit={addQuestion}>
                 <div className="InputContainer">
-                    <label for="question">Question</label>
+                    <label htmlFor="question">Question</label>
                     <input
                         className="input"
                         name="question"
@@ -52,7 +54,7 @@ const NewQuestion = props => {
                     />
                 </div>
                 <div className="InputContainer">
-                    <label for="answer">Answer</label>
+                    <label htmlFor="answer">Answer</label>
                     <input
                         className="input"
                         name="answer"
@@ -62,17 +64,19 @@ const NewQuestion = props => {
                     />
                 </div>
                 <div className="InputContainer">
-                    <label for="tags">Tags</label>
+                    <label htmlFor="tags">Tags</label>
                     <input
                         className="input"
                         name="tags"
                         placeholder="Tags"
-                        value={input.answer}
+                        value={input.tags}
                         onChange={handleChange}
                     />
                 </div>
-            </div>
-            <button className="btn success">Add Question</button>
+                <button className="btn success" type="submit">
+                    Add Question
+                </button>
+            </form>
         </Styles>
     );
 };
