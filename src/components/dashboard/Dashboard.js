@@ -1,16 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Dashboard = () => {
     return (
         <Styles>
-            <Link to="/games" className="dashboardTabs">
+            <NavLink
+                to="/games"
+                className="dashboardTabs"
+                activeClassName="selected">
                 All Games
-            </Link>
-            <Link to="/questions" className="dashboardTabs">
+            </NavLink>
+            <NavLink
+                to="/questions"
+                className="dashboardTabs"
+                activeClassName="selected">
                 All Questions
-            </Link>
+            </NavLink>
         </Styles>
     );
 };
@@ -33,6 +39,10 @@ const Styles = styled.div`
         padding: 10px 15px;
         justify-content: center;
         text-decoration: none;
+        color: #313638;
+    }
+    .selected {
+        background-color: #e0dfd5;
         color: #313638;
     }
 `;

@@ -36,7 +36,7 @@ function Jeopardy() {
                 };
                 // setUser(userProfile);
                 dispatch({ type: SET_USER, payload: userProfile });
-                console.log('Already signed in!');
+                console.log('Already signed in!', userProfile);
             } else {
                 // No user is signed in.
                 console.log('Not signed in!');

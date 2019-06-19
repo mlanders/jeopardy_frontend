@@ -35,7 +35,7 @@ const Login = () => {
                 };
 
                 dispatch({ type: SET_USER, payload: userProfile });
-                history.push('/games');
+                history.push('/');
             })
             .catch(function(error) {
                 // Handle Errors here.
