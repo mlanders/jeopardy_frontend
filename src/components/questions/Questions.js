@@ -52,21 +52,20 @@ const Questions = () => {
         dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
     };
     let displayQuestions = [];
-    if (state.questionsFiltered) {
-        displayQuestions = state.questionsFiltered;
-    } else {
+    if (filter.points === '') {
         displayQuestions = state.questions;
+    } else {
+        displayQuestions = state.questionsFiltered;
     }
 
-    console.log('Filter: ', filter.points);
     return (
         <div>
             <NewQuestion />
             <div className="container">
                 <label htmlFor="points">Filter by points</label>
                 <select name="points" id="points" onChange={handleChange}>
-                    <option name="points" value="all">
-                        -- Select One --
+                    <option name="points" value="">
+                        -- All --
                     </option>
                     <option name="points" value="200">
                         $200
