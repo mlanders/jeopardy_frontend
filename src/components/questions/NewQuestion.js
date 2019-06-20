@@ -9,7 +9,8 @@ const NewQuestion = props => {
     const [input, setInput] = useState({
         question: '',
         answer: '',
-        tags: ''
+        tags: '',
+        points: '200'
     });
     const addQuestion = e => {
         console.log(props.author);
@@ -26,6 +27,7 @@ const NewQuestion = props => {
                     question: input.question,
                     answer: input.answer,
                     tags: input.tags,
+                    points: input.points,
                     gameID: props.gameID
                 }
             )
@@ -72,6 +74,26 @@ const NewQuestion = props => {
                         value={input.tags}
                         onChange={handleChange}
                     />
+                </div>
+                <div className="InputContainer">
+                    <label for="points">Select a point value</label>
+                    <select name="points" id="points" onChange={handleChange}>
+                        <option name="points" value="200">
+                            $200
+                        </option>
+                        <option name="points" value="400">
+                            $400
+                        </option>
+                        <option name="points" value="600">
+                            $600
+                        </option>
+                        <option name="points" value="800">
+                            $800
+                        </option>
+                        <option name="points" value="1000">
+                            $1000
+                        </option>
+                    </select>
                 </div>
                 <button className="btn success" type="submit">
                     Add Question

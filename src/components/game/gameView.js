@@ -77,6 +77,7 @@ const GameView = props => {
             .catch(err => console.log('ERROR: ', err));
         history.push('/games');
     };
+    console.log(state.questions);
     return (
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <GameViewContainer>
