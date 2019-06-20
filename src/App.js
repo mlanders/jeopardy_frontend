@@ -2,14 +2,15 @@ import React from 'react';
 import { StateProvider } from 'react-conflux';
 import { userContext, userReducer } from './conflux/userReducer';
 
-import Jeopardy from './components/jeopardy';
 import { GlobalStyles } from './styles';
+import Dashboard from './components/dashboard/Dashboard';
+import { Route } from 'react-router-dom';
 
 function App() {
     return (
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <GlobalStyles />
-            <Jeopardy />
+            <Route path="/" render={props => <Dashboard {...props} />} />
         </StateProvider>
     );
 }
