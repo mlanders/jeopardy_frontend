@@ -49,8 +49,10 @@ const Questions = () => {
 
     const handleChange = e => {
         const { name, value } = e.target;
-        console.log(name);
-        if (name === 'selectedTags') {
+        console.log(name, value);
+        if (name === undefined) {
+            //Need to figure out why these items are showing up as undefined
+            // need to remove it from selectedTags when clicking on it again
             setFilter({
                 ...filter,
                 selectedTags: [...filter.selectedTags, value]
@@ -59,12 +61,7 @@ const Questions = () => {
             setFilter({ ...filter, [name]: value });
         }
     };
-    // let displayQuestions = [];
-    // if (filter.points === '') {
-    //     displayQuestions = state.questions;
-    // } else {
-    //     displayQuestions = state.questionsFiltered;
-    // }
+
     state.questions.forEach(question =>
         question.tags.forEach(tag => {
             if (filter.tags.includes(tag)) {
@@ -147,12 +144,13 @@ const Questions = () => {
 
 export default Questions;
 
-const Tag = styled.text`
+const Tag = styled.span`
     background-color: #5bc0de;
     color: #fff;
     font-size: 1rem;
     padding: 4px 4px;
     border-radius: 4px;
     margin: 5px 5px 5px 0;
+    width: auto;
     cursor: pointer;
 `;
