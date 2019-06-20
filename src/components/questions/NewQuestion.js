@@ -76,7 +76,7 @@ const NewQuestion = props => {
                     />
                 </div>
                 <div className="InputContainer">
-                    <label for="points">Select a point value</label>
+                    <label htmlFor="points">Select a point value</label>
                     <select name="points" id="points" onChange={handleChange}>
                         <option name="points" value="200">
                             $200

@@ -9,8 +9,8 @@ const QuestionView = ({ q }) => {
                 <p>Question: {q.question || <Skeleton />}</p>
                 <p>Answer: {q.answer || <Skeleton />}</p>
                 <TagContainer>
-                    {q.tags.map(tag => (
-                        <Tag>{`${tag}`}</Tag>
+                    {q.tags.map((tag, index) => (
+                        <Tag key={index}>{`${tag}`}</Tag>
                     ))}
                 </TagContainer>
             </Left>

@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 //Conflux
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
-import { SET_QUESTIONS } from '../../conflux/constants';
+import { SET_QUESTIONS, SET_QUESTIONS_FILTERED } from '../../conflux/constants';
 //Components
 import QuestionView from './QuestionView';
+import NewQuestion from './NewQuestion';
 //Firebase
 let firebase = require('firebase/app');
 require('firebase/firestore');
@@ -14,6 +15,9 @@ let db = firebase.firestore();
 
 const Questions = () => {
     const [state, dispatch] = useStateValue(userContext);
+    const [filter, setFilter] = useState({
+        points: ''
+    });
 
     useEffect(() => {
         db.collection('questions')
@@ -39,13 +43,53 @@ const Questions = () => {
             });
     }, [dispatch, state.userProfile.uid]);
 
+    const handleChange = e => {
+        const { name, value } = e.target;
+        setFilter({ ...filter, [name]: value });
+        let filtered = state.questions.filter(
+            question => question.points === value
+        );
+        dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
+    };
+    let displayQuestions = [];
+    if (state.questionsFiltered) {
+        displayQuestions = state.questionsFiltered;
+    } else {
+        displayQuestions = state.questions;
+    }
+
+    console.log('Filter: ', filter.points);
     return (
         <div>
+            <NewQuestion />
             <div className="container">
-                {state.questions.length === 0 ? (
+                <label htmlFor="points">Filter by points</label>
+                <select name="points" id="points" onChange={handleChange}>
+                    <option name="points" value="all">
+                        -- Select One --
+                    </option>
+                    <option name="points" value="200">
+                        $200
+                    </option>
+                    <option name="points" value="400">
+                        $400
+                    </option>
+                    <option name="points" value="600">
+                        $600
+                    </option>
+                    <option name="points" value="800">
+                        $800
+                    </option>
+                    <option name="points" value="1000">
+                        $1000
+                    </option>
+                </select>
+            </div>
+            <div className="container">
+                {displayQuestions.length === 0 ? (
                     <div>No questions available. Create one above!</div>
                 ) : (
-                    state.questions.map(q => {
+                    displayQuestions.map(q => {
                         return <QuestionView key={q.id} q={q} />;
                     })
                 )}

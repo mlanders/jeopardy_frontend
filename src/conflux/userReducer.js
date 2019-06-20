@@ -2,6 +2,7 @@ import {
     SET_USER,
     SET_GAMES,
     SET_QUESTIONS,
+    SET_QUESTIONS_FILTERED,
     CLEAR_TODOS,
     SET_INPUT
 } from './constants';
@@ -16,6 +17,7 @@ const initialState = {
     },
     games: [],
     questions: [],
+    questionsFiltered: null,
     inputValue: ''
 };
 
@@ -42,6 +44,11 @@ export const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 questions: action.payload
+            };
+        case SET_QUESTIONS_FILTERED:
+            return {
+                ...state,
+                questionsFiltered: action.payload
             };
         case SET_INPUT:
             return {

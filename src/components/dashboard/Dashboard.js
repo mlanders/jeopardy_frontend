@@ -76,7 +76,8 @@ function Dashboard(props) {
             <GlobalStyles />
             <NavBar />
             <div className="body">
-                {props.history.location.pathname !== '/user' ? (
+                {props.history.location.pathname !== '/user' &&
+                state.userProfile.uid !== '' ? (
                     <Styles>
                         <NavLink
                             to="/games"
