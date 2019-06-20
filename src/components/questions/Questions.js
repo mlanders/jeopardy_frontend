@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 //Conflux
 import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
@@ -17,6 +18,7 @@ const Questions = () => {
     const [state, dispatch] = useStateValue(userContext);
     const [filter, setFilter] = useState({
         points: '',
+        selectedTags: [],
         tags: []
     });
 
@@ -47,7 +49,15 @@ const Questions = () => {
 
     const handleChange = e => {
         const { name, value } = e.target;
-        setFilter({ ...filter, [name]: value });
+        console.log(name);
+        if (name === 'selectedTags') {
+            setFilter({
+                ...filter,
+                selectedTags: [...filter.selectedTags, value]
+            });
+        } else {
+            setFilter({ ...filter, [name]: value });
+        }
     };
     // let displayQuestions = [];
     // if (filter.points === '') {
@@ -55,7 +65,15 @@ const Questions = () => {
     // } else {
     //     displayQuestions = state.questionsFiltered;
     // }
-
+    state.questions.forEach(question =>
+        question.tags.forEach(tag => {
+            if (filter.tags.includes(tag)) {
+                return null;
+            } else {
+                filter.tags.push(tag);
+            }
+        })
+    );
     const handleFilter = () => {
         const { points, tags } = filter;
         if (points && tags.length === 0) {
@@ -77,36 +95,42 @@ const Questions = () => {
         <div>
             <NewQuestion />
             <div className="container">
-                <label htmlFor="points">Filter by points</label>
-                <select name="points" id="points" onChange={handleChange}>
-                    <option name="points" value="">
-                        -- All --
-                    </option>
-                    <option name="points" value="200">
-                        $200
-                    </option>
-                    <option name="points" value="400">
-                        $400
-                    </option>
-                    <option name="points" value="600">
-                        $600
-                    </option>
-                    <option name="points" value="800">
-                        $800
-                    </option>
-                    <option name="points" value="1000">
-                        $1000
-                    </option>
-                </select>
-                <div>
-                    {filter.tags.map(tag => (
-                        <span>{tag}</span>
-                    ))}
-                </div>
+                <form>
+                    <label htmlFor="points">Filter by points</label>
+                    <select name="points" id="points" onChange={handleChange}>
+                        <option name="points" value="">
+                            -- All --
+                        </option>
+                        <option name="points" value="200">
+                            $200
+                        </option>
+                        <option name="points" value="400">
+                            $400
+                        </option>
+                        <option name="points" value="600">
+                            $600
+                        </option>
+                        <option name="points" value="800">
+                            $800
+                        </option>
+                        <option name="points" value="1000">
+                            $1000
+                        </option>
+                    </select>
+                    <div>
+                        {filter.tags.map((tag, index) => (
+                            <Tag
+                                key={index}
+                                name="selectedTags"
+                                value={tag}
+                                onClick={handleChange}>{`${tag}`}</Tag>
+                        ))}
+                    </div>
 
-                <button className="primary" onClick={handleFilter}>
-                    Filter
-                </button>
+                    <button className="primary" onClick={handleFilter}>
+                        Filter
+                    </button>
+                </form>
             </div>
             <div className="container">
                 {state.questionsFiltered.length === 0 ? (
@@ -122,3 +146,13 @@ const Questions = () => {
 };
 
 export default Questions;
+
+const Tag = styled.text`
+    background-color: #5bc0de;
+    color: #fff;
+    font-size: 1rem;
+    padding: 4px 4px;
+    border-radius: 4px;
+    margin: 5px 5px 5px 0;
+    cursor: pointer;
+`;
