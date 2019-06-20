@@ -17,7 +17,7 @@ const initialState = {
     },
     games: [],
     questions: [],
-    questionsFiltered: null,
+    questionsFiltered: [],
     inputValue: ''
 };
 

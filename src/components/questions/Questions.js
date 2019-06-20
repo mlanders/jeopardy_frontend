@@ -16,7 +16,8 @@ let db = firebase.firestore();
 const Questions = () => {
     const [state, dispatch] = useStateValue(userContext);
     const [filter, setFilter] = useState({
-        points: ''
+        points: '',
+        tags: []
     });
 
     useEffect(() => {
@@ -40,23 +41,37 @@ const Questions = () => {
                     return 0; //default return value (no sorting)
                 });
                 dispatch({ type: SET_QUESTIONS, payload: update });
+                dispatch({ type: SET_QUESTIONS_FILTERED, payload: update });
             });
     }, [dispatch, state.userProfile.uid]);
 
     const handleChange = e => {
         const { name, value } = e.target;
         setFilter({ ...filter, [name]: value });
-        let filtered = state.questions.filter(
-            question => question.points === value
-        );
-        dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
     };
-    let displayQuestions = [];
-    if (filter.points === '') {
-        displayQuestions = state.questions;
-    } else {
-        displayQuestions = state.questionsFiltered;
-    }
+    // let displayQuestions = [];
+    // if (filter.points === '') {
+    //     displayQuestions = state.questions;
+    // } else {
+    //     displayQuestions = state.questionsFiltered;
+    // }
+
+    const handleFilter = () => {
+        const { points, tags } = filter;
+        if (points && tags.length === 0) {
+            let filtered = state.questions.filter(
+                question => question.points === points
+            );
+            dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
+        } else {
+            let filtered = state.questions.filter(
+                question =>
+                    question.points === points &&
+                    question.tags.some(t => tags.include(t))
+            );
+            dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
+        }
+    };
 
     return (
         <div>
@@ -83,12 +98,21 @@ const Questions = () => {
                         $1000
                     </option>
                 </select>
+                <div>
+                    {filter.tags.map(tag => (
+                        <span>{tag}</span>
+                    ))}
+                </div>
+
+                <button className="primary" onClick={handleFilter}>
+                    Filter
+                </button>
             </div>
             <div className="container">
-                {displayQuestions.length === 0 ? (
+                {state.questionsFiltered.length === 0 ? (
                     <div>No questions available. Create one above!</div>
                 ) : (
-                    displayQuestions.map(q => {
+                    state.questionsFiltered.map(q => {
                         return <QuestionView key={q.id} q={q} />;
                     })
                 )}
