@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 //Conflux
 import { useStateValue } from 'react-conflux';
@@ -48,18 +49,18 @@ const Questions = () => {
     }, [dispatch, state.userProfile.uid]);
 
     const handleChange = e => {
+        e.preventDefault();
         const { name, value } = e.target;
-        console.log(name, value);
-        if (name === undefined) {
-            //Need to figure out why these items are showing up as undefined
-            // need to remove it from selectedTags when clicking on it again
-            setFilter({
-                ...filter,
-                selectedTags: [...filter.selectedTags, value]
-            });
-        } else {
-            setFilter({ ...filter, [name]: value });
-        }
+        // if (name === 'selectedTags') {
+        //Need to figure out why these items are showing up as undefined
+        // need to remove it from selectedTags when clicking on it again
+        setFilter({
+            ...filter,
+            [name]: [...filter[name], value]
+        });
+        // } else {
+        //     setFilter({ ...filter, [name]: value });
+        // }
     };
 
     state.questions.forEach(question =>
@@ -71,21 +72,39 @@ const Questions = () => {
             }
         })
     );
-    const handleFilter = () => {
-        const { points, tags } = filter;
-        if (points && tags.length === 0) {
-            let filtered = state.questions.filter(
-                question => question.points === points
-            );
-            dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
-        } else {
-            let filtered = state.questions.filter(
-                question =>
-                    question.points === points &&
-                    question.tags.some(t => tags.include(t))
-            );
-            dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
-        }
+    const handleFilter = e => {
+        e.preventDefault();
+        const { points, selectedTags } = filter;
+        axios
+            .post(
+                'https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/filterQuestions',
+                {
+                    uid: state.userProfile.uid,
+                    tags: selectedTags,
+                    points: points
+                }
+            )
+            .then(res => {
+                console.log(res.data.data);
+                dispatch({
+                    type: SET_QUESTIONS_FILTERED,
+                    payload: res.data.data
+                });
+            })
+            .catch(err => console.log('ERROR: ', err));
+        // if (points && tags.length === 0) {
+        //     let filtered = state.questions.filter(
+        //         question => question.points === points
+        //     );
+        //     dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
+        // } else {
+        //     let filtered = state.questions.filter(
+        //         question =>
+        //             question.points === points &&
+        //             question.tags.some(t => tags.include(t))
+        //     );
+        //     dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
+        // }
     };
 
     return (
@@ -93,7 +112,24 @@ const Questions = () => {
             <NewQuestion />
             <div className="container">
                 <form>
-                    <label htmlFor="points">Filter by points</label>
+                    <FilterRow>
+                        <Tag name="points" value="200" onClick={handleChange}>
+                            $200
+                        </Tag>
+                        <Tag name="points" value="400" onClick={handleChange}>
+                            $400
+                        </Tag>
+                        <Tag name="points" value="600" onClick={handleChange}>
+                            $600
+                        </Tag>
+                        <Tag name="points" value="800" onClick={handleChange}>
+                            $800
+                        </Tag>
+                        <Tag name="points" value="1000" onClick={handleChange}>
+                            $1000
+                        </Tag>
+                    </FilterRow>
+                    {/* <label htmlFor="points">Filter by points</label>
                     <select name="points" id="points" onChange={handleChange}>
                         <option name="points" value="">
                             -- All --
@@ -113,8 +149,8 @@ const Questions = () => {
                         <option name="points" value="1000">
                             $1000
                         </option>
-                    </select>
-                    <div>
+                    </select> */}
+                    <FilterRow>
                         {filter.tags.map((tag, index) => (
                             <Tag
                                 key={index}
@@ -122,7 +158,7 @@ const Questions = () => {
                                 value={tag}
                                 onClick={handleChange}>{`${tag}`}</Tag>
                         ))}
-                    </div>
+                    </FilterRow>
 
                     <button className="primary" onClick={handleFilter}>
                         Filter
@@ -144,7 +180,7 @@ const Questions = () => {
 
 export default Questions;
 
-const Tag = styled.span`
+const Tag = styled.button`
     background-color: #5bc0de;
     color: #fff;
     font-size: 1rem;
@@ -153,4 +189,7 @@ const Tag = styled.span`
     margin: 5px 5px 5px 0;
     width: auto;
     cursor: pointer;
+`;
+const FilterRow = styled.div`
+    height: 50px;
 `;
