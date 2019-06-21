@@ -18,7 +18,7 @@ let db = firebase.firestore();
 const Questions = () => {
     const [state, dispatch] = useStateValue(userContext);
     const [filter, setFilter] = useState({
-        points: '',
+        points: [],
         selectedTags: [],
         tags: []
     });
@@ -48,30 +48,24 @@ const Questions = () => {
             });
     }, [dispatch, state.userProfile.uid]);
 
-    const handleChange = e => {
-        e.preventDefault();
-        const { name, value } = e.target;
-        // if (name === 'selectedTags') {
-        //Need to figure out why these items are showing up as undefined
-        // need to remove it from selectedTags when clicking on it again
-        setFilter({
-            ...filter,
-            [name]: [...filter[name], value]
-        });
-        // } else {
-        //     setFilter({ ...filter, [name]: value });
-        // }
-    };
-
     state.questions.forEach(question =>
         question.tags.forEach(tag => {
-            if (filter.tags.includes(tag)) {
-                return null;
-            } else {
+            if (filter.tags.includes(tag) === false) {
                 filter.tags.push(tag);
             }
         })
     );
+
+    const handleChange = e => {
+        e.preventDefault();
+        const { name, value } = e.target;
+
+        setFilter({
+            ...filter,
+            [name]: [...filter[name], value]
+        });
+    };
+
     const handleFilter = e => {
         e.preventDefault();
         const { points, selectedTags } = filter;
@@ -92,19 +86,13 @@ const Questions = () => {
                 });
             })
             .catch(err => console.log('ERROR: ', err));
-        // if (points && tags.length === 0) {
-        //     let filtered = state.questions.filter(
-        //         question => question.points === points
-        //     );
-        //     dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
-        // } else {
-        //     let filtered = state.questions.filter(
-        //         question =>
-        //             question.points === points &&
-        //             question.tags.some(t => tags.include(t))
-        //     );
-        //     dispatch({ type: SET_QUESTIONS_FILTERED, payload: filtered });
-        // }
+        setFilter({ ...filter, points: [], selectedTags: [] });
+    };
+
+    const clearFilter = e => {
+        e.preventDefault();
+        const data = [];
+        dispatch({ type: SET_QUESTIONS_FILTERED, payload: data });
     };
 
     return (
@@ -129,27 +117,6 @@ const Questions = () => {
                             $1000
                         </Tag>
                     </FilterRow>
-                    {/* <label htmlFor="points">Filter by points</label>
-                    <select name="points" id="points" onChange={handleChange}>
-                        <option name="points" value="">
-                            -- All --
-                        </option>
-                        <option name="points" value="200">
-                            $200
-                        </option>
-                        <option name="points" value="400">
-                            $400
-                        </option>
-                        <option name="points" value="600">
-                            $600
-                        </option>
-                        <option name="points" value="800">
-                            $800
-                        </option>
-                        <option name="points" value="1000">
-                            $1000
-                        </option>
-                    </select> */}
                     <FilterRow>
                         {filter.tags.map((tag, index) => (
                             <Tag
@@ -160,16 +127,23 @@ const Questions = () => {
                         ))}
                     </FilterRow>
 
-                    <button className="primary" onClick={handleFilter}>
+                    <button className="btn primary" onClick={handleFilter}>
                         Filter
+                    </button>
+                    <button className="btn primary" onClick={clearFilter}>
+                        Clear
                     </button>
                 </form>
             </div>
             <div className="container">
-                {state.questionsFiltered.length === 0 ? (
-                    <div>No questions available. Create one above!</div>
-                ) : (
+                {state.questionsFiltered.length > 0 ? (
                     state.questionsFiltered.map(q => {
+                        return <QuestionView key={q.id} q={q} />;
+                    })
+                ) : state.questions.length === 0 ? (
+                    <div>No questios available. Create one above!</div>
+                ) : (
+                    state.questions.map(q => {
                         return <QuestionView key={q.id} q={q} />;
                     })
                 )}
