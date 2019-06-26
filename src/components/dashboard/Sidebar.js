@@ -25,7 +25,7 @@ const Sidebar = () => {
 export default Sidebar;
 
 const Styles = styled.div`
-	max-width: 200px;
+	max-width: 125px;
 	width: 100%;
 	height: 100vh;
 	display: flex;
@@ -35,7 +35,7 @@ const Styles = styled.div`
 		display: flex;
 		background-color: #fff;
 		padding: 20px 15px;
-		justify-content: center;
+		justify-content: flex-start;
 		text-decoration: none;
 		color: #313638;
 		:hover {

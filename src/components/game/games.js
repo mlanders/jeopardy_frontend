@@ -18,42 +18,37 @@ const Games = ({ db }) => {
 	};
 	return (
 		<Styles>
-			<div className='gameSidebar '>
-				{gameState ? (
-					<div className='newGameWrapper'>
-						<NewGame user={state.userProfile} />
-						{/* <button
+			{gameState ? (
+				<div className='newGameWrapper'>
+					<NewGame user={state.userProfile} />
+					{/* <button
 							className='btn primary close'
 							onClick={() => setGameState(false)}
 						>
 							Close
 						</button> */}
-					</div>
-				) : (
-					<button
-						className='btn primary open'
-						onClick={() => setGameState(true)}
-					>
-						New Game
-					</button>
-				)}
-				{state.games.length === 0 ? (
-					<div>No games available.</div>
-				) : (
-					state.games.map(game => {
-						return (
-							<StyledLink
-								activeClassName='selected'
-								key={game.id}
-								to={`/games/${game.id}`}
-								onClick={() => setCurrentGame(game)}
-							>
-								{game.gameName}
-							</StyledLink>
-						);
-					})
-				)}
-			</div>
+				</div>
+			) : (
+				<button className='btn primary open' onClick={() => setGameState(true)}>
+					New Game
+				</button>
+			)}
+			{state.games.length === 0 ? (
+				<div>No games available.</div>
+			) : (
+				state.games.map(game => {
+					return (
+						<StyledLink
+							activeClassName='selected'
+							key={game.id}
+							to={`/games/${game.id}`}
+							onClick={() => setCurrentGame(game)}
+						>
+							{game.gameName}
+						</StyledLink>
+					);
+				})
+			)}
 		</Styles>
 	);
 };
@@ -68,26 +63,24 @@ const Styles = styled.div`
 	/* width: 100%;
 	margin: 0 auto; */
 	/* padding: 10px; */
+	background-color: #fff;
+	box-shadow: 1px 1px 4px gray;
+	margin: 0 0 10px 0;
+	padding: 10px;
+	max-width: 335px;
+	width: 100%;
+	/* width: 400px; */
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: #313638;
 	.gamesRight {
 	}
 	.selected {
 		background-color: #337ab7;
 		color: #fff;
 	}
-	.gameSidebar {
-		background-color: #fff;
-		box-shadow: 1px 1px 4px gray;
-		margin: 0 0 10px 0;
-		padding: 10px;
-		min-width: 250px;
-		max-width: 400px;
-		width: 100%;
-		/* width: 400px; */
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		background-color: #313638;
-	}
+
 	.newGameWrapper {
 		display: flex;
 		flex-direction: column;
