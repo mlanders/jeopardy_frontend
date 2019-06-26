@@ -98,26 +98,3 @@ function Dashboard(props) {
 }
 
 export default Dashboard;
-
-// const Styles = styled.div`
-//     display: flex;
-//     max-width: 800px;
-//     width: 100%;
-//     justify-content: center;
-//     box-shadow: 1px 1px 4px gray;
-//     margin: 0 auto;
-//     .dashboardTabs {
-//         display: flex;
-//         width: 50%;
-
-//         background-color: #fff;
-//         padding: 10px 15px;
-//         justify-content: center;
-//         text-decoration: none;
-//         color: #313638;
-//     }
-//     .selected {
-//         background-color: #337ab7;
-//         color: #fff;
-//     }
-// `;

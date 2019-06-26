@@ -19,6 +19,24 @@ const Games = ({ db }) => {
 	return (
 		<Styles>
 			<div className='gameSidebar '>
+				{gameState ? (
+					<div className='newGameWrapper'>
+						<NewGame user={state.userProfile} />
+						{/* <button
+							className='btn primary close'
+							onClick={() => setGameState(false)}
+						>
+							Close
+						</button> */}
+					</div>
+				) : (
+					<button
+						className='btn primary open'
+						onClick={() => setGameState(true)}
+					>
+						New Game
+					</button>
+				)}
 				{state.games.length === 0 ? (
 					<div>No games available.</div>
 				) : (
@@ -36,21 +54,6 @@ const Games = ({ db }) => {
 					})
 				)}
 			</div>
-			{gameState ? (
-				<div className='newGameWrapper'>
-					<NewGame user={state.userProfile} />
-					<button
-						className='btn primary close'
-						onClick={() => setGameState(false)}
-					>
-						Close
-					</button>
-				</div>
-			) : (
-				<button className='btn primary open' onClick={() => setGameState(true)}>
-					New Game
-				</button>
-			)}
 		</Styles>
 	);
 };
@@ -60,16 +63,26 @@ export default Games;
 const Styles = styled.div`
 	display: flex;
 	flex-direction: row;
+
 	/* max-width: 800px; */
-	width: 100%;
-	margin: 0 auto;
+	/* width: 100%;
+	margin: 0 auto; */
 	/* padding: 10px; */
+	.gamesRight {
+	}
 	.selected {
 		background-color: #337ab7;
 		color: #fff;
 	}
 	.gameSidebar {
-		width: 400px;
+		background-color: #fff;
+		box-shadow: 1px 1px 4px gray;
+		margin: 0 0 10px 0;
+		padding: 10px;
+		min-width: 250px;
+		max-width: 400px;
+		width: 100%;
+		/* width: 400px; */
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
@@ -77,16 +90,17 @@ const Styles = styled.div`
 	}
 	.newGameWrapper {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
 	}
 	.close {
-		height: 59px;
+		border-radius: 0px;
+		margin: 0 0 10px 0;
 	}
 	.open {
-		height: 59px;
-		justify-content: flex-end;
+		border-radius: 0px;
+		margin: 0 0 10px 0;
 	}
 `;
 // const NewGameWrapper = styled.div`

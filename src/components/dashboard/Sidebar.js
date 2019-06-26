@@ -25,7 +25,8 @@ const Sidebar = () => {
 export default Sidebar;
 
 const Styles = styled.div`
-	width: 200px;
+	max-width: 200px;
+	width: 100%;
 	height: 100vh;
 	display: flex;
 	flex-direction: column;
