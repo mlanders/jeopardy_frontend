@@ -96,7 +96,7 @@ const Questions = () => {
     };
 
     return (
-        <div>
+        <QuestionsContainer>
             <NewQuestion />
             <div className="container">
                 <form>
@@ -148,12 +148,17 @@ const Questions = () => {
                     })
                 )}
             </div>
-        </div>
+        </QuestionsContainer>
     );
 };
 
 export default Questions;
-
+const QuestionsContainer = styled.div`
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    /* padding: 10px; */
+`;
 const Tag = styled.button`
     background-color: #5bc0de;
     color: #fff;

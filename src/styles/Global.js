@@ -7,8 +7,10 @@ export const Global = css`
     }
     .body {
         background-color: #e8e9eb;
-        padding-top: 10px;
+        /* padding-top: 10px; */
         height: 100vh;
+        display: flex;
+        flex-direction: row;
     }
     .h1 {
         font-size: 2rem;
