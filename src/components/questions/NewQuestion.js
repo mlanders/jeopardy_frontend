@@ -41,6 +41,7 @@ const NewQuestion = props => {
             .catch(err => console.log('ERROR: ', err));
 
         setInput({ question: '', answer: '', tags: '' });
+        props.toggleQuestion();
     };
     const handleChange = e => {
         e.preventDefault();

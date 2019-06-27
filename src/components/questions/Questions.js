@@ -119,7 +119,10 @@ const Questions = () => {
                 </button>
             </ButtonContainer>
             {visible.question ? (
-                <NewQuestion author={state.userProfile.uid} />
+                <NewQuestion
+                    author={state.userProfile.uid}
+                    toggleQuestion={toggleQuestion}
+                />
             ) : null}
             {visible.filter ? (
                 <div className="container">

@@ -75,7 +75,7 @@ const GameView = props => {
                 dispatch({ type: SET_QUESTIONS, payload: update });
             });
 
-        unsubscribe();
+        // unsubscribe();
     }, [dispatch, props.match.params.id, state.userProfile.uid]);
 
     const deleteGame = async () => {
@@ -126,6 +126,7 @@ const GameView = props => {
                         className="container"
                         gameID={props.match.params.id}
                         author={state.currentGame.author}
+                        toggleQuestion={toggleQuestion}
                     />
                 ) : null}
                 <div className="container">
