@@ -48,13 +48,16 @@ const Questions = () => {
             });
     }, [dispatch, state.userProfile.uid]);
 
-    state.questions.forEach(question =>
-        question.tags.forEach(tag => {
-            if (filter.tags.includes(tag) === false) {
-                filter.tags.push(tag);
-            }
-        })
-    );
+    if (state.questions.length > 0) {
+        console.log(state.questions);
+        state.questions.forEach(question =>
+            question.tags.forEach(tag => {
+                if (filter.tags.includes(tag) === false) {
+                    filter.tags.push(tag);
+                }
+            })
+        );
+    }
 
     const handleChange = e => {
         e.preventDefault();
@@ -97,7 +100,7 @@ const Questions = () => {
 
     return (
         <QuestionsContainer>
-            <NewQuestion />
+            <NewQuestion author={state.userProfile.uid} />
             <div className="container">
                 <form>
                     <FilterRow>
