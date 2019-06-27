@@ -3,7 +3,7 @@ import { Skeleton } from "react-loading-skeleton";
 import styled from "styled-components";
 
 const QuestionView = ({ q }) => {
-	console.log(q);
+	// console.log(q);
 	return (
 		<QuestionContainer>
 			<Left>

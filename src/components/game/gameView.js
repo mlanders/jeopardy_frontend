@@ -34,7 +34,7 @@ const GameView = props => {
 				}`
 			)
 			.then(res => {
-				console.log(res.data.data);
+				console.log(res.data);
 				dispatch({ type: SET_CURRENT_GAME, payload: res.data.data });
 				// setCurrentGame({
 				// 	gameName: res.data.data.gameName,
@@ -80,7 +80,7 @@ const GameView = props => {
 		history.push("/games");
 	};
 	console.log(state.currentGame);
-	console.log(state.questions);
+	// console.log(state.questions);
 	return (
 		<StateProvider reducer={userReducer} stateContext={userContext}>
 			<GameViewContainer>
