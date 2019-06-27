@@ -22,12 +22,16 @@ const Questions = () => {
         selectedTags: [],
         tags: []
     });
+    const [visible, setVisible] = useState({
+        newQuestion: false,
+        filter: false
+    });
 
+    // database listener for changes to questions and sets the questions to state
     useEffect(() => {
         db.collection('questions')
             .where('author', '==', state.userProfile.uid)
             .onSnapshot(function(snapshot) {
-                // let changes = snapshot.docChanges();
                 let update = [];
                 snapshot.docs.forEach(doc => {
                     let document = doc.data();
@@ -48,8 +52,9 @@ const Questions = () => {
             });
     }, [dispatch, state.userProfile.uid]);
 
+    // sets the tags for all questions to the filter.tags array
+    // doesn't not add duplicate tags
     if (state.questions.length > 0) {
-        console.log(state.questions);
         state.questions.forEach(question =>
             question.tags.forEach(tag => {
                 if (filter.tags.includes(tag) === false) {
@@ -97,54 +102,86 @@ const Questions = () => {
         const data = [];
         dispatch({ type: SET_QUESTIONS_FILTERED, payload: data });
     };
-
+    const toggleQuestion = () => {
+        setVisible({ ...visible, question: !visible.question });
+    };
+    const toggleFilter = () => {
+        setVisible({ ...visible, filter: !visible.filter });
+    };
     return (
         <QuestionsContainer>
-            <NewQuestion author={state.userProfile.uid} />
-            <div className="container">
-                <form>
-                    <FilterRow>
-                        <Tag name="points" value="200" onClick={handleChange}>
-                            $200
-                        </Tag>
-                        <Tag name="points" value="400" onClick={handleChange}>
-                            $400
-                        </Tag>
-                        <Tag name="points" value="600" onClick={handleChange}>
-                            $600
-                        </Tag>
-                        <Tag name="points" value="800" onClick={handleChange}>
-                            $800
-                        </Tag>
-                        <Tag name="points" value="1000" onClick={handleChange}>
-                            $1000
-                        </Tag>
-                    </FilterRow>
-                    <FilterRow>
-                        {filter.tags.map((tag, index) => (
+            <ButtonContainer>
+                <button className="btn primary" onClick={toggleQuestion}>
+                    New Question
+                </button>
+                <button className="btn primary" onClick={toggleFilter}>
+                    Filter
+                </button>
+            </ButtonContainer>
+            {visible.question ? (
+                <NewQuestion author={state.userProfile.uid} />
+            ) : null}
+            {visible.filter ? (
+                <div className="container">
+                    <form>
+                        <FilterRow>
                             <Tag
-                                key={index}
-                                name="selectedTags"
-                                value={tag}
-                                onClick={handleChange}>{`${tag}`}</Tag>
-                        ))}
-                    </FilterRow>
+                                name="points"
+                                value="200"
+                                onClick={handleChange}>
+                                $200
+                            </Tag>
+                            <Tag
+                                name="points"
+                                value="400"
+                                onClick={handleChange}>
+                                $400
+                            </Tag>
+                            <Tag
+                                name="points"
+                                value="600"
+                                onClick={handleChange}>
+                                $600
+                            </Tag>
+                            <Tag
+                                name="points"
+                                value="800"
+                                onClick={handleChange}>
+                                $800
+                            </Tag>
+                            <Tag
+                                name="points"
+                                value="1000"
+                                onClick={handleChange}>
+                                $1000
+                            </Tag>
+                        </FilterRow>
+                        <FilterRow>
+                            {filter.tags.map((tag, index) => (
+                                <Tag
+                                    key={index}
+                                    name="selectedTags"
+                                    value={tag}
+                                    onClick={handleChange}>{`${tag}`}</Tag>
+                            ))}
+                        </FilterRow>
 
-                    <button className="btn primary" onClick={handleFilter}>
-                        Filter
-                    </button>
-                    <button className="btn primary" onClick={clearFilter}>
-                        Clear
-                    </button>
-                </form>
-            </div>
+                        <button className="btn primary" onClick={handleFilter}>
+                            Filter
+                        </button>
+                        <button className="btn primary" onClick={clearFilter}>
+                            Clear
+                        </button>
+                    </form>
+                </div>
+            ) : null}
             <div className="container">
                 {state.questionsFiltered.length > 0 ? (
                     state.questionsFiltered.map(q => {
                         return <QuestionView key={q.id} q={q} />;
                     })
                 ) : state.questions.length === 0 ? (
-                    <div>No questios available. Create one above!</div>
+                    <div>No questions available. Create one above!</div>
                 ) : (
                     state.questions.map(q => {
                         return <QuestionView key={q.id} q={q} />;
@@ -156,10 +193,15 @@ const Questions = () => {
 };
 
 export default Questions;
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+`;
 const QuestionsContainer = styled.div`
     max-width: 800px;
     width: 100%;
-    margin: 0 auto;
+    margin: 10px auto;
     /* padding: 10px; */
 `;
 const Tag = styled.button`

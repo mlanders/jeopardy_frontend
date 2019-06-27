@@ -51,66 +51,68 @@ const NewQuestion = props => {
         <Styles className="container">
             <div className="h3">Add Question</div>
             <form className="NewQuestionForm" onSubmit={addQuestion}>
-                <div className="formLeft">
-                    <div className="InputContainer">
-                        <label htmlFor="question">Question</label>
-                        <textarea
-                            className="input textarea"
-                            name="question"
-                            placeholder="Question"
-                            value={input.question}
-                            onChange={handleChange}
-                        />
+                <div className="inputs">
+                    <div className="formLeft">
+                        <div className="InputContainer">
+                            <label htmlFor="question">Question</label>
+                            <textarea
+                                className="input textarea"
+                                name="question"
+                                placeholder="What is 2 + 2?"
+                                value={input.question}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="InputContainer">
+                            <label htmlFor="answer">Answer</label>
+                            <textarea
+                                className="input textarea"
+                                name="answer"
+                                placeholder="4"
+                                value={input.answer}
+                                onChange={handleChange}
+                            />
+                        </div>
                     </div>
-                    <div className="InputContainer">
-                        <label htmlFor="answer">Answer</label>
-                        <textarea
-                            className="input textarea"
-                            name="answer"
-                            placeholder="Answer"
-                            value={input.answer}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div className="formRight">
-                    <div className="InputContainer">
-                        <label htmlFor="tags">
-                            Tags{' '}
-                            <span className="subText">Comma separated</span>
-                        </label>
+                    <div className="formRight">
+                        <div className="InputContainer">
+                            <label htmlFor="tags">
+                                Tags{' '}
+                                <span className="subText">Comma separated</span>
+                            </label>
 
-                        <input
-                            className="input"
-                            name="tags"
-                            placeholder="Tags"
-                            value={input.tags}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div className="InputContainer">
-                        <label htmlFor="points">Select a point value</label>
-                        <select
-                            className="select"
-                            name="points"
-                            id="points"
-                            onChange={handleChange}>
-                            <option name="points" value="200">
-                                $200
-                            </option>
-                            <option name="points" value="400">
-                                $400
-                            </option>
-                            <option name="points" value="600">
-                                $600
-                            </option>
-                            <option name="points" value="800">
-                                $800
-                            </option>
-                            <option name="points" value="1000">
-                                $1000
-                            </option>
-                        </select>
+                            <input
+                                className="input"
+                                name="tags"
+                                placeholder="Math, Addition"
+                                value={input.tags}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="InputContainer">
+                            <label htmlFor="points">Select a point value</label>
+                            <select
+                                className="select"
+                                name="points"
+                                id="points"
+                                onChange={handleChange}>
+                                <option name="points" value="200">
+                                    $200
+                                </option>
+                                <option name="points" value="400">
+                                    $400
+                                </option>
+                                <option name="points" value="600">
+                                    $600
+                                </option>
+                                <option name="points" value="800">
+                                    $800
+                                </option>
+                                <option name="points" value="1000">
+                                    $1000
+                                </option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <button className="btn success" type="submit">
@@ -129,6 +131,7 @@ const Styles = styled.div`
     width: 100%;
     .NewQuestionForm {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
         margin: 10px 0;
     }
@@ -138,9 +141,17 @@ const Styles = styled.div`
         flex-direction: column;
         margin: 10px;
     }
+    .inputs {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
     .textarea {
-        width: 300px;
-        height: 80px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+        height: 100px;
     }
     .formLeft {
         display: flex;

@@ -36,7 +36,9 @@ const Games = ({ db }) => {
                 </button>
             )}
             {state.games.length === 0 ? (
-                <div>No games available.</div>
+                <div style={{ color: '#fff', margin: '10px auto' }}>
+                    No games available. Create one above!
+                </div>
             ) : (
                 state.games.map(game => {
                     return (

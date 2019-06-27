@@ -25,8 +25,12 @@ const GameView = props => {
         gameName: false,
         author: false
     });
+    const [visible, setVisible] = useState({
+        newQuestion: false,
+        filter: false
+    });
 
-    async function getCurrentGame() {
+    const getCurrentGame = async () => {
         await axios
             .get(
                 `https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/getGame/${
@@ -45,10 +49,11 @@ const GameView = props => {
                 // });
             })
             .catch(err => console.log('ERROR: ', err));
-    }
+    };
 
     useEffect(() => {
-        db.collection('questions')
+        let unsubscribe = db
+            .collection('questions')
             .where('gameID', '==', props.match.params.id)
             .onSnapshot(function(snapshot) {
                 // let changes = snapshot.docChanges();
@@ -69,6 +74,8 @@ const GameView = props => {
                 });
                 dispatch({ type: SET_QUESTIONS, payload: update });
             });
+
+        unsubscribe();
     }, [dispatch, props.match.params.id, state.userProfile.uid]);
 
     const deleteGame = async () => {
@@ -87,15 +94,24 @@ const GameView = props => {
         getCurrentGame();
         return <Skeleton />;
     }
-
+    const toggleQuestion = () => {
+        setVisible({ ...visible, question: !visible.question });
+    };
     return (
         <StateProvider reducer={userReducer} stateContext={userContext}>
             <GameViewContainer>
                 <GameSettings>
                     <Link to="/games">{'<- Back to Games'}</Link>
-                    <button className="btn danger" onClick={deleteGame}>
-                        Delete Game
-                    </button>
+                    <div>
+                        <button
+                            className="btn primary"
+                            onClick={toggleQuestion}>
+                            New Question
+                        </button>
+                        <button className="btn danger" onClick={deleteGame}>
+                            Delete Game
+                        </button>
+                    </div>
                 </GameSettings>
                 <GameTitle className="container h1">
                     {state.currentGame === null ? (
@@ -105,12 +121,13 @@ const GameView = props => {
                     )}
                     <br />
                 </GameTitle>
-
-                <NewQuestion
-                    className="container"
-                    gameID={props.match.params.id}
-                    author={state.currentGame.author}
-                />
+                {visible.question ? (
+                    <NewQuestion
+                        className="container"
+                        gameID={props.match.params.id}
+                        author={state.currentGame.author}
+                    />
+                ) : null}
                 <div className="container">
                     {state.questions.length === 0 ? (
                         <div>No questions available. Create one above!</div>
