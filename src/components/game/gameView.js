@@ -80,6 +80,7 @@ const GameView = props => {
 		history.push("/games");
 	};
 	console.log(state.currentGame);
+	console.log(state.questions);
 	return (
 		<StateProvider reducer={userReducer} stateContext={userContext}>
 			<GameViewContainer>
