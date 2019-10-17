@@ -5,13 +5,10 @@ import { useStateValue } from 'react-conflux';
 import { userContext } from '../../conflux/userReducer';
 import { SET_USER } from '../../conflux/constants';
 
-import firebaseConfig from './fbaseConfig';
-
 //Firebase
-let firebase = require('firebase/app');
+import firebase from './firebase'
 require('firebase/firestore');
 require('firebase/auth');
-firebase.initializeApp(firebaseConfig);
 let provider = new firebase.auth.GoogleAuthProvider();
 firebase.auth().useDeviceLanguage();
 
@@ -22,7 +19,7 @@ const Login = () => {
         firebase
             .auth()
             .signInWithPopup(provider)
-            .then(function(result) {
+            .then(function (result) {
                 // This gives you a Google Access Token. You can use it to access the Google API.
                 // let token = result.credential.accessToken;
                 // The signed-in user info.
@@ -37,7 +34,7 @@ const Login = () => {
                 dispatch({ type: SET_USER, payload: userProfile });
                 history.push('/');
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 // Handle Errors here.
                 let errorCode = error.code;
                 let errorMessage = error.message;
@@ -60,7 +57,7 @@ const Login = () => {
         firebase
             .auth()
             .signOut()
-            .then(function() {
+            .then(function () {
                 // Sign-out successful.
                 let userProfile = {
                     uid: '',
@@ -72,7 +69,7 @@ const Login = () => {
                 history.push('/');
                 console.log('Signout success!');
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 // An error happened.
                 console.error('Signout Error', error);
             });

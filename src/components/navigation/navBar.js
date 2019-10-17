@@ -16,13 +16,13 @@ const NavBar = () => {
                 </Link>
 
                 <div className="MenuRight">
-                    <Link to="/user">
+                    <Link to="/user" className={
+                        state.userProfile.uid
+                            ? ''
+                            : 'hidden '
+                    }>
                         <img
-                            className={
-                                state.userProfile.uid
-                                    ? 'ProfileImg '
-                                    : 'hidden '
-                            }
+                            className='ProfileImg'
                             src={state.userProfile.photo || 'None'}
                             alt={state.userProfile.name || 'None'}
                         />
