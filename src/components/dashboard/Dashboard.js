@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
-import { Route } from 'react-router-dom';
-import { GlobalStyles } from '../../styles';
+import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
+import { GlobalStyles } from "../../styles";
 
 //Conflux
-import { useStateValue } from 'react-conflux';
-import { userContext } from '../../conflux/userReducer';
-import { SET_USER, SET_GAMES } from '../../conflux/constants';
+import { useStateValue } from "react-conflux";
+import { userContext } from "../../conflux/userReducer";
+import { SET_USER, SET_GAMES } from "../../conflux/constants";
 //Components
-import Login from '../authentication/login';
-import UserInfo from '../user/userInfo';
-import GameView from '../game/gameView';
+import Login from "../authentication/login";
+import UserInfo from "../user/userInfo";
+import GameView from "../game/GameView";
 
-import Games from '../game/games';
+import Games from "../game/Games";
 // import Dashboard from './dashboard/Dashboard';
-import Questions from '../questions/Questions';
-import NavBar from '../navigation/NavBar';
-import styled from 'styled-components';
-import Sidebar from './Sidebar';
+import Questions from "../questions/Questions";
+import NavBar from "../navigation/NavBar";
+import styled from "styled-components";
+import Sidebar from "./Sidebar";
 //Firebase
-require('firebase/firestore');
-require('firebase/auth');
-let firebase = require('firebase/app');
+require("firebase/firestore");
+require("firebase/auth");
+let firebase = require("firebase/app");
 firebase.auth().useDeviceLanguage();
 let db = firebase.firestore();
 
@@ -43,14 +43,14 @@ function Dashboard(props) {
 				// console.log("Already signed in!", userProfile);
 			} else {
 				// No user is signed in.
-				console.log('Not signed in!');
+				console.log("Not signed in!");
 			}
 		});
 	}, [dispatch, state.userProfile.uid]);
 
 	useEffect(() => {
-		db.collection('games')
-			.where('author', '==', state.userProfile.uid)
+		db.collection("games")
+			.where("author", "==", state.userProfile.uid)
 			.onSnapshot(function(snapshot) {
 				// let changes = snapshot.docChanges();
 				let update = [];
@@ -77,18 +77,18 @@ function Dashboard(props) {
 			<GlobalStyles />
 			<NavBar />
 			{/* {props.history.location.pathname !== '/user' && */}
-			{state.userProfile.uid !== '' ? (
-				<div className='body'>
+			{state.userProfile.uid !== "" ? (
+				<div className="body">
 					<Sidebar />
-					<Route exact path='/user' render={props => <UserInfo {...props} />} />
-					<Route path='/games' render={props => <Games {...props} />} />
+					<Route exact path="/user" render={props => <UserInfo {...props} />} />
+					<Route path="/games" render={props => <Games {...props} />} />
 					<Route
-						path='/games/:id'
+						path="/games/:id"
 						render={props => <GameView {...props} db={props.db} />}
 					/>
 					<Route
 						exact
-						path='/questions'
+						path="/questions"
 						render={props => <Questions {...props} />}
 					/>
 				</div>
