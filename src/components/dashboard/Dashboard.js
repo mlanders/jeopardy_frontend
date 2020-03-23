@@ -9,14 +9,14 @@ import { userContext } from "../../conflux/userReducer";
 import { SET_USER, SET_GAMES } from "../../conflux/constants";
 //Components
 import Login from "../authentication/login";
-import UserInfo from "../user/UserInfo";
+import UserInfo from "../user/UserInfo.js";
 import GameView from "../game/GameView";
 
 import Games from "../game/Games";
-// import Dashboard from './dashboard/Dashboard';
 import Questions from "../questions/Questions";
 import NavBar from "../navigation/NavBar";
-import Sidebar from "./Sidebar";
+// import Sidebar from "./Sidebar";
+
 //Firebase
 require("firebase/firestore");
 require("firebase/auth");
@@ -76,7 +76,6 @@ function Dashboard(props) {
 		<>
 			<GlobalStyles />
 			<NavBar />
-			{/* {props.history.location.pathname !== '/user' && */}
 			{state.userProfile.uid !== "" ? (
 				<div className="body">
 					{/* <Sidebar /> */}

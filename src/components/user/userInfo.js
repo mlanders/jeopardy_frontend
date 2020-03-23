@@ -21,7 +21,6 @@ const UserInfo = () => {
 	const [state] = useStateValue(userContext);
 
 	return (
-		// <StateProvider reducer={userReducer} stateContext={userContext}>
 		<Paper elevation={3} className={classes.paper}>
 			<H1>{state.userProfile.name}</H1>
 			<UID>UID: {state.userProfile.uid}</UID>
