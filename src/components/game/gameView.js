@@ -1,60 +1,91 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import Skeleton from 'react-loading-skeleton';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import styled from "styled-components";
+import Skeleton from "react-loading-skeleton";
+import { Link } from "react-router-dom";
 //Conflux
-import { StateProvider, useStateValue } from 'react-conflux';
-import { userContext, userReducer } from '../../conflux/userReducer';
-import { SET_QUESTIONS, SET_CURRENT_GAME } from '../../conflux/constants';
+import { StateProvider, useStateValue } from "react-conflux";
+import { userContext, userReducer } from "../../conflux/userReducer";
+import { SET_QUESTIONS, SET_CURRENT_GAME } from "../../conflux/constants";
 //Components
-import history from '../../index';
-import NewQuestion from '../questions/NewQuestion';
-import QuestionView from '../questions/QuestionView';
+import history from "../../index";
+import NewQuestion from "../questions/NewQuestion";
+import QuestionView from "../questions/QuestionView";
+
+// Material UI
+import { makeStyles } from "@material-ui/core/styles";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import Collapse from "@material-ui/core/Collapse";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
+import StarBorder from "@material-ui/icons/StarBorder";
+
 //Firebase
-let firebase = require('firebase/app');
-require('firebase/firestore');
-require('firebase/auth');
+let firebase = require("firebase/app");
+require("firebase/firestore");
+require("firebase/auth");
 // firebase.initializeApp(fbaseConfig);
 let db = firebase.firestore();
 
+const useStyles = makeStyles(theme => ({
+	root: {
+		width: "100%",
+		maxWidth: 360,
+		backgroundColor: theme.palette.background.paper,
+	},
+	nested: {
+		paddingLeft: theme.spacing(4),
+	},
+}));
+
 //Component
 const GameView = props => {
+	const classes = useStyles();
+	const [open, setOpen] = React.useState(true);
+
+	const handleClick = () => {
+		setOpen(!open);
+	};
 	const [state, dispatch] = useStateValue(userContext);
 	const [currentGame, setCurrentGame] = useState({
 		gameName: false,
-		author: false
+		author: false,
 	});
 	const [visible, setVisible] = useState({
 		newQuestion: false,
-		filter: false
+		filter: false,
 	});
 
 	const getCurrentGame = async () => {
 		await axios
 			.get(
-				`https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/getGame/${
-					props.match.params.id
-				}`
+				`https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/getGame/${props.match.params.id}`
 			)
 			.then(res => {
 				console.log(res.data);
 				dispatch({
 					type: SET_CURRENT_GAME,
-					payload: res.data.data
+					payload: res.data.data,
 				});
 				// setCurrentGame({
 				// 	gameName: res.data.data.gameName,
 				// 	author: res.data.data.author
 				// });
 			})
-			.catch(err => console.log('ERROR: ', err));
+			.catch(err => console.log("ERROR: ", err));
 	};
 
 	useEffect(() => {
 		let unsubscribe = db
-			.collection('questions')
-			.where('gameID', '==', props.match.params.id)
+			.collection("questions")
+			.where("gameID", "==", props.match.params.id)
 			.onSnapshot(function(snapshot) {
 				// let changes = snapshot.docChanges();
 				let update = [];
@@ -81,13 +112,11 @@ const GameView = props => {
 	const deleteGame = async () => {
 		await axios
 			.delete(
-				`https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/deleteGame/${
-					props.match.params.id
-				}`
+				`https://us-central1-jeopardy-firebase.cloudfunctions.net/jeopardy/deleteGame/${props.match.params.id}`
 			)
 			.then(res => console.log(res.data))
-			.catch(err => console.log('ERROR: ', err));
-		history.push('/games');
+			.catch(err => console.log("ERROR: ", err));
+		history.push("/games");
 	};
 	// console.log(state.currentGame);
 	if (state.currentGame === null) {
@@ -101,29 +130,29 @@ const GameView = props => {
 		// <StateProvider reducer={userReducer} stateContext={userContext}>
 		<GameViewContainer>
 			<GameSettings>
-				<Link to='/games'>{'<- Back to Games'}</Link>
+				<Link to="/games">{"<- Back to Games"}</Link>
 				<div>
-					<button className='btn primary' onClick={toggleQuestion}>
+					<button className="btn primary" onClick={toggleQuestion}>
 						New Question
 					</button>
-					<button className='btn danger' onClick={deleteGame}>
+					<button className="btn danger" onClick={deleteGame}>
 						Delete Game
 					</button>
 				</div>
 			</GameSettings>
-			<GameTitle className='container h1'>
+			<GameTitle className="container h1">
 				{state.currentGame === null ? <Skeleton /> : state.currentGame.gameName}
 				<br />
 			</GameTitle>
 			{visible.question ? (
 				<NewQuestion
-					className='container'
+					className="container"
 					gameID={props.match.params.id}
 					author={state.currentGame.author}
 					toggleQuestion={toggleQuestion}
 				/>
 			) : null}
-			<div className='container'>
+			<div className="container">
 				{state.questions.length === 0 ? (
 					<div>No questions available. Create one above!</div>
 				) : (

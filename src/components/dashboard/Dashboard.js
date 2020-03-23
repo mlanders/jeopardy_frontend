@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
 import { GlobalStyles } from "../../styles";
+import styled from "styled-components";
 
 //Conflux
 import { useStateValue } from "react-conflux";
@@ -8,14 +9,13 @@ import { userContext } from "../../conflux/userReducer";
 import { SET_USER, SET_GAMES } from "../../conflux/constants";
 //Components
 import Login from "../authentication/login";
-import UserInfo from "../user/userInfo";
+import UserInfo from "../user/UserInfo";
 import GameView from "../game/GameView";
 
 import Games from "../game/Games";
 // import Dashboard from './dashboard/Dashboard';
 import Questions from "../questions/Questions";
 import NavBar from "../navigation/NavBar";
-import styled from "styled-components";
 import Sidebar from "./Sidebar";
 //Firebase
 require("firebase/firestore");
@@ -36,7 +36,7 @@ function Dashboard(props) {
 					uid: user.uid,
 					email: user.email,
 					photo: user.photoURL,
-					name: user.displayName
+					name: user.displayName,
 				};
 				// setUser(userProfile);
 				dispatch({ type: SET_USER, payload: userProfile });
@@ -79,18 +79,11 @@ function Dashboard(props) {
 			{/* {props.history.location.pathname !== '/user' && */}
 			{state.userProfile.uid !== "" ? (
 				<div className="body">
-					<Sidebar />
+					{/* <Sidebar /> */}
+					<Route path="/" render={props => <Games {...props} />} />
 					<Route exact path="/user" render={props => <UserInfo {...props} />} />
-					<Route path="/games" render={props => <Games {...props} />} />
-					<Route
-						path="/games/:id"
-						render={props => <GameView {...props} db={props.db} />}
-					/>
-					<Route
-						exact
-						path="/questions"
-						render={props => <Questions {...props} />}
-					/>
+					<Route path="/games/:id" render={props => <GameView {...props} db={props.db} />} />
+					<Route exact path="/questions" render={props => <Questions {...props} />} />
 				</div>
 			) : null}
 		</>
