@@ -23,7 +23,7 @@ const UserInfo = () => {
 	return (
 		<Paper elevation={3} className={classes.paper}>
 			<H1>{state.userProfile.name}</H1>
-			<UID>UID: {state.userProfile.uid}</UID>
+			<UID>UUID: {state.userProfile.uid}</UID>
 			<UserImg src={state.userProfile.photo} alt={state.userProfile.name} />
 		</Paper>
 	);
