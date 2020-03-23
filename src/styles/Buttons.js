@@ -3,7 +3,7 @@ import { css } from "styled-components";
 export const Buttons = css`
 	.btn {
 		display: inline-block;
-		margin: 0 5px;
+		margin: 5px;
 		font-weight: 400;
 		text-align: center;
 		white-space: nowrap;

@@ -82,6 +82,7 @@ const Styles = styled.div`
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
+		padding: 10px;
 	}
 	.close {
 		border-radius: 0px;

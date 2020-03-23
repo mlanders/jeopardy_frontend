@@ -43,5 +43,10 @@ export default GameView;
 
 const NewGameForm = styled.form`
 	display: flex;
+	flex-direction: column;
 	justify-content: space-between;
+	.input {
+		margin: 0 5px;
+		width: 180px;
+	}
 `;
